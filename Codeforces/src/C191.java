@@ -26,25 +26,31 @@ public class C191 {
 		long ans = 0 ;
 		
 		int a = s.length();
+		long B = 1;
 		
-		BigInteger base = BigInteger.valueOf(1);
-		BigInteger b2 = BigInteger.valueOf(2);
-		BigInteger bm = BigInteger.valueOf(MOD);
 		if(k == 1){
 		
 		}
 		else{
 			int n = k-1;
+			BigInteger base = BigInteger.valueOf(1);
+			BigInteger b2 = BigInteger.valueOf(2);
+			BigInteger bm = BigInteger.valueOf(MOD);
 			BigInteger r = b2.pow(a);
 			base = r.pow(n+1).subtract(base).divide(r.subtract(base));
+			B = base.mod(bm).intValue();
 		}
+		
+		long b2m = 1;
 		
 		for(int i = 0; i < s.length(); i++){
 			char c = s.charAt(i);
 			if(c == '0' || c == '5'){
-				ans += b2.pow(i).multiply(base).mod(bm).intValue();
+				ans += (b2m * B ) % MOD;
 				ans %= MOD;
 			}
+			b2m *= 2;
+			b2m %= MOD;
 		}
 		out.println(ans);
 		

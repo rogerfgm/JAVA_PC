@@ -10,6 +10,13 @@ import static java.lang.Integer.*;
 
 
 // WA on 13
+
+//-1 -1
+//UR
+//Output
+//Yes
+//Answer
+//No
 public class C190 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
@@ -26,9 +33,32 @@ public class C190 {
 			out.println("Yes");
 			return;
 		}
+		int X = 0;
+		int Y = 0;
+	
+		for(int i = 0; i < S.length(); i++){
+			char c = S.charAt(i);
+			if(c == 'U'){
+				Y++;
+			}
+			else if(c == 'D'){
+				Y--;
+			}
+			else if(c == 'L'){
+				X--;
+			}
+			else{
+				X++;
+			}
+		}
+		
 		int x = 0;
 		int y = 0;
-		List<int[]> list = new ArrayList<int[]>();
+		boolean f = false;
+		
+		if(a == 0 && b == 0){
+			f = true;
+		}
 		for(int i = 0; i < S.length(); i++){
 			char c = S.charAt(i);
 			if(c == 'U'){
@@ -43,39 +73,15 @@ public class C190 {
 			else{
 				x++;
 			}
-			int[] l = new int[2];
-			l[0] = x;
-			l[1] = y;
-			list.add(l);
-		}
-		boolean f = false;
-		for(int i = 0;i < list.size(); i++){
-			int[] l = list.get(i);
-			int cx = a - l[0];
-			int cy = b - l[1];
-			if(x == 0 && y == 0){
-				if(cx == 0 && cy == 0){
-					f = true;
-				}
-			}
-			else if(x == 0){
-				if(cy % y == 0){
-					f = true;
-				}
-			}
-			else if(y == 0){
-				if(cx % x == 0){
-					f = true;
-				}
-			}
-			else{
-				if(cx % x == 0 && cy % y == 0){
-					if(cx / x == cy / y){
-						f = true;
-					}
-				}
+			int ca = a - x;
+			int cb = b - y;
+			if(check(ca, cb, X, Y)){
+				f = true;
+				break;
 			}
 		}
+
+		
 		if(f){
 			out.println("Yes");
 		}
@@ -84,6 +90,38 @@ public class C190 {
 		}
 	
 		
+	}
+	
+	boolean check(int a, int b, int x, int y){
+		
+		if(x == 0 && y == 0){
+			if(a == 0 && b == 0){
+				return true;
+			}
+		}
+		else if(x == 0){
+			if(a == 0){
+				if(b % y == 0){
+					return true;
+				}
+			}
+		}
+		else if(y == 0){
+			if(b == 0){
+				if(a % x == 0){
+					return true;
+				}
+			}
+		}
+		else{
+			if(a % x == 0 && b % y == 0 && a / x == b / y){
+				return true;
+			}
+		}
+		
+		
+		
+		return false;
 	}
 	
 

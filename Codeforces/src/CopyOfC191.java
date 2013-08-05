@@ -8,9 +8,8 @@ import static java.lang.Math.*;
 import static java.lang.Integer.*;
 
 
-
-// WA on 5
-public class C185 {
+// TLE
+public class CopyOfC191 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -18,21 +17,37 @@ public class C185 {
 	static BufferedWriter bw = null;
 	int N = 0;
 	
+	int MOD = 1000000007;
+	
 	public void solve() throws Exception{
 
-		int n = sc.nextInt();
+		String s = sc.next();
 		int k = sc.nextInt();
-		int sum = 0;
-		for(int i = n-1; i >= 0; i--){
-			sum += i;
+		long ans = 0 ;
+		
+		int a = s.length();
+		
+		BigInteger base = BigInteger.valueOf(1);
+		BigInteger b2 = BigInteger.valueOf(2);
+		BigInteger bm = BigInteger.valueOf(MOD);
+		if(k == 1){
+		
 		}
-		if(sum < k){
-			out.println("no solution");
-			return;
+		else{
+			int n = k-1;
+			BigInteger r = b2.pow(a);
+			base = r.pow(n+1).subtract(base).divide(r.subtract(base));
 		}
-		for(int i = 0; i < n; i++){
-			out.println("0 " + i);
+		
+		for(int i = 0; i < s.length(); i++){
+			char c = s.charAt(i);
+			if(c == '0' || c == '5'){
+				ans += b2.pow(i).multiply(base).mod(bm).intValue();
+				ans %= MOD;
+			}
 		}
+		out.println(ans);
+		
 	}
 	
 
@@ -57,7 +72,7 @@ public class C185 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		sc =  new Scanner(System.in);
 		//br = new BufferedReader(new InputStreamReader(System.in));
-		C185 t = new C185();
+		CopyOfC191 t = new CopyOfC191();
 		t.solve();
 		bw.close();
 	}

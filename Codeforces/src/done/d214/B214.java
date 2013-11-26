@@ -1,3 +1,4 @@
+package done.d214;
 
 
 
@@ -10,7 +11,7 @@ import static java.lang.Integer.*;
 
 
 
-public class C214MadaTotyuu {
+public class B214 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -19,48 +20,39 @@ public class C214MadaTotyuu {
 	int N = 0;
 	
 	public void solve() throws Exception{
-
-		int n = nextInt();
-		int k = nextInt();
-		int[] a = nextInts();
-		int[] b = nextInts();
+		int[] t = nextInts();
+		int n = t[0];
+		int k = t[1];
+		int[] d = nextInts();
+		int ans = Integer.MAX_VALUE;
 		
-		int ans = -1;
-		Map<Integer, Set<Integer>> map = new HashMap<Integer, Set<Integer>>();
-		for(int i = 1; i <= 10000 && i * k <= 10000; i++){
-			int bo = i;
-			int si = i * k;
-	
-			for(int j = 0; j < n; j++){
-				if(bo == b[j] && si == a[j]){
-					ans = si;
-					break;
+		int[] s = new int[k];
+		for(int i = 0; i < n; i++){
+			int idx = i % k;
+			s[idx] += d[i];
+		}
+		
+		int ama = n % k;
+		int aidx = -1;
+		if(ama == 0) ama = k;
+		for(int i = 0; i < k; i++){
+			if(i < ama){
+				if(s[i] < ans){
+					ans = s[i];
+					aidx = i;
 				}
-				Map<Integer, Set<Integer>> newmap = new HashMap<Integer, Set<Integer>>();
-				for(int tb : map.keySet()){
-					int nb = tb + b[j];
-					if(nb > bo) continue;
-					if(!newmap.containsKey(nb)){
-						newmap.put(nb, new HashSet<Integer>());
-					}
-					for(int ts : map.get(tb)){
-						int ns = ts + a[j];
-						if(nb == bo && ns == si){
-							ans = si;
-							break;
-						}
-						if(!newmap.get(nb).contains(ns)) newmap.get(nb).add(ns);
-					}
-					
-					
+		
+			}
+			else{
+				int pu = i - ama;
+				if(s[i] + d[pu] < ans){
+					ans = s[i] + d[pu] ;
+					aidx = i;
 				}
-				
-				
-				
-				
 			}
 		}
-	
+		aidx++;
+		out.println(aidx);
 		
 	}
 	
@@ -100,7 +92,7 @@ public class C214MadaTotyuu {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		C214MadaTotyuu t = new C214MadaTotyuu();
+		B214 t = new B214();
 		t.solve();
 		bw.close();
 	}

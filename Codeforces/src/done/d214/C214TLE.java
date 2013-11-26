@@ -1,3 +1,4 @@
+package done.d214;
 
 
 
@@ -10,7 +11,7 @@ import static java.lang.Integer.*;
 
 
 
-public class B214 {
+public class C214TLE {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -19,39 +20,41 @@ public class B214 {
 	int N = 0;
 	
 	public void solve() throws Exception{
-		int[] t = nextInts();
-		int n = t[0];
-		int k = t[1];
-		int[] d = nextInts();
-		int ans = Integer.MAX_VALUE;
+		int[] tmp = nextInts();
+		int n = tmp[0];
+		int k = tmp[1];
+		int[] a = nextInts();
+		int[] b = nextInts();
 		
-		int[] s = new int[k];
+		int ans = -1;
+		Map<Integer, Set<Integer>> map = new HashMap<Integer, Set<Integer>>();
+		
+		for(int i = 1; i <= 10000; i++){
+			Set<Integer> set = new HashSet<Integer>();
+			map.put(i, set);
+		}
+		
+		
 		for(int i = 0; i < n; i++){
-			int idx = i % k;
-			s[idx] += d[i];
-		}
-		
-		int ama = n % k;
-		int aidx = -1;
-		if(ama == 0) ama = k;
-		for(int i = 0; i < k; i++){
-			if(i < ama){
-				if(s[i] < ans){
-					ans = s[i];
-					aidx = i;
-				}
-		
-			}
-			else{
-				int pu = i - ama;
-				if(s[i] + d[pu] < ans){
-					ans = s[i] + d[pu] ;
-					aidx = i;
+			for(int j = 10000; j - b[i] > 0; j--){
+				int pb = j - b[i];
+				for(int ps : map.get(pb)){
+					int ns = ps + a[i];
+					if(ns / j > k) continue;
+					else if(ns / j == k && ns % j == 0){
+						ans = max(ans, ns);
+						map.get(j).add(ns);
+					}
+					else{
+						map.get(j).add(ns);
+					}
 				}
 			}
+			
+			if(a[i]/b[i] == k && a[i]%b[i] == 0) ans = max(ans, a[i]);
+			map.get(b[i]).add(a[i]);
 		}
-		aidx++;
-		out.println(aidx);
+		out.println(ans);
 		
 	}
 	
@@ -91,7 +94,7 @@ public class B214 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		B214 t = new B214();
+		C214TLE t = new C214TLE();
 		t.solve();
 		bw.close();
 	}

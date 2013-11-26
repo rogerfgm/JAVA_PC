@@ -9,69 +9,52 @@ import static java.lang.Integer.*;
 
 
 
-// WA on 5
-public class D189 {
+
+public class B214 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
 	static PrintStream out = null;
 	static BufferedWriter bw = null;
 	int N = 0;
-	int[] d = null;
+	
 	public void solve() throws Exception{
+		int[] t = nextInts();
+		int n = t[0];
+		int k = t[1];
+		int[] d = nextInts();
+		int ans = Integer.MAX_VALUE;
 		
-		int n = parseInt(br.readLine());
-		String s = br.readLine();
-		String[] sp = s.split(" ");
-		d = new int[n];
+		int[] s = new int[k];
 		for(int i = 0; i < n; i++){
-			d[i] = parseInt(sp[i]);
-		}
-		int l = 0;
-		int idx = 0;
-		int ans = 0 ;
-		while(true){
-			if(idx >= n){
-				break;
-			}
-			while(true){
-				if(idx == n-1 || d[idx+1] >= d[l]){
-					ans = max(ans, check(l, idx));
-					idx++;
-					l = idx;
-					break;
-				}
-				idx++;
-			}
+			int idx = i % k;
+			s[idx] += d[i];
 		}
 		
-		out.println(ans);
+		int ama = n % k;
+		int aidx = -1;
+		if(ama == 0) ama = k;
+		for(int i = 0; i < k; i++){
+			if(i < ama){
+				if(s[i] < ans){
+					ans = s[i];
+					aidx = i;
+				}
+		
+			}
+			else{
+				int pu = i - ama;
+				if(s[i] + d[pu] < ans){
+					ans = s[i] + d[pu] ;
+					aidx = i;
+				}
+			}
+		}
+		aidx++;
+		out.println(aidx);
+		
 	}
 	
-	int check(int l, int r){
-		if(l == r){
-			return 0;
-		}
-		int ans = 0;
-		l++;
-		int n = r - l + 1;
-		int[] dp = new int[n];
-		
-		for(int i = 0; i < n; i++){
-			dp[i] = 1;
-			for(int j = 0; j < i; j++){
-				if(d[l+i] >= d[l+j]){
-					dp[i] = max(dp[i], dp[j] + 1);
-				}
-			}
-		}
-		for(int i = 0; i < n; i++){
-			ans = max(dp[i], ans);
-		}
-		
-		
-		return ans;
-	}
 
     public int[] readIntArray(int n) {
         int[] ret = new int[n];
@@ -81,7 +64,21 @@ public class D189 {
         return ret;
     }
 
+	private int nextInt() throws IOException{
+		String s = br.readLine();
+		return parseInt(s);
+	}
 	
+	private int[] nextInts() throws IOException{
+		String s = br.readLine();
+		String[] sp = s.split(" ");
+		int[] r = new int[sp.length];
+		for(int i = 0;i < sp.length; i++){
+			r[i] = parseInt(sp[i]);
+		}
+		return r;
+	}
+    
 	/**
 	 * @param args
 	 */
@@ -94,7 +91,7 @@ public class D189 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		D189 t = new D189();
+		B214 t = new B214();
 		t.solve();
 		bw.close();
 	}

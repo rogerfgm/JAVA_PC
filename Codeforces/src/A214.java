@@ -9,9 +9,8 @@ import static java.lang.Integer.*;
 
 
 
-// TLE
-// -1000000000000000000 1 1000000000000000000
-public class C188 {
+
+public class A214 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -21,43 +20,29 @@ public class C188 {
 	
 	public void solve() throws Exception{
 
-		long a = sc.nextLong();
-		long b = sc.nextLong();
-		long m = sc.nextLong();
-		
-		if(a > b){
-			long t = a;
-			a = b;
-			b = t;
-		}
-		long ans = 0;
-		if(b >= m){
-			out.println(ans);
-			return;
-		}
-		if(a == 0 && b == 0){
-			out.println("-1");
-			return;
-		}
-		if(a < 0){
-			if(b <= 0){
-				out.println("-1");
+		int n = nextInt();
+		for(int x = 1; x <= 4; x++){
+			int[] ns = nextInts();
+			int a, b, c, d;
+			a = ns[0];
+			b = ns[1];
+			c = ns[2];
+			d = ns[3];
+			
+			if(min(a, b) + min(c, d) <= n){
+				int a1 = min(a, b);
+				int a2 = n - a1;
+				out.println(x + " " + a1 + " " + a2);
 				return;
 			}
-			while(a < 0){
-				long tmp = a + b;
-				a = tmp;
-				ans++;
-			}
+			
+
 		}
 		
-		while(b < m){
-			long t = a + b;
-			a = b;
-			b = t;
-			ans++;
-		}
-		out.println(ans);
+		
+		System.out.println("-1");
+	
+		
 	}
 	
 
@@ -69,7 +54,21 @@ public class C188 {
         return ret;
     }
 
+	private int nextInt() throws IOException{
+		String s = br.readLine();
+		return parseInt(s);
+	}
 	
+	private int[] nextInts() throws IOException{
+		String s = br.readLine();
+		String[] sp = s.split(" ");
+		int[] r = new int[sp.length];
+		for(int i = 0;i < sp.length; i++){
+			r[i] = parseInt(sp[i]);
+		}
+		return r;
+	}
+    
 	/**
 	 * @param args
 	 */
@@ -80,9 +79,9 @@ public class C188 {
 		}
 		out = System.out;
 		bw = new BufferedWriter(new PrintWriter(out));
-		sc =  new Scanner(System.in);
-		//br = new BufferedReader(new InputStreamReader(System.in));
-		C188 t = new C188();
+		//sc =  new Scanner(System.in);
+		br = new BufferedReader(new InputStreamReader(System.in));
+		A214 t = new A214();
 		t.solve();
 		bw.close();
 	}

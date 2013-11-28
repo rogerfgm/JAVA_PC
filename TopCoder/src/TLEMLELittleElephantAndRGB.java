@@ -1,9 +1,12 @@
-import java.io.PrintStream;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class LittleElephantAndRGB {
+import static java.lang.Math.*;
+import static java.lang.Integer.*;
+
+import java.io.*;
+
+public class TLEMLELittleElephantAndRGB {
+
 	int INF = Integer.MAX_VALUE / 10;
 	double DF = 0.0000000001;
 	static PrintStream out = System.out;
@@ -15,7 +18,6 @@ public class LittleElephantAndRGB {
 	Set<Integer> set = null;
 	List<Integer> list = null;
 	char G = 'G';
-	
 	public long getNumber(String[] list, int M) {
 		long a = 0;
 		String s = "";
@@ -98,17 +100,16 @@ public class LittleElephantAndRGB {
 		return a;
 	}
 	
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		LittleElephantAndRGB t = new LittleElephantAndRGB();
-		String[] list = new String[]{"GRGGGRBRGG", "GGGGGGGG", "BRGRBRB"};
-        int minGreen = 4;
-        long expected = 12430L;
- 
-        long a = t.getNumber(list, minGreen);
-		out.println(a);
+		TLEMLELittleElephantAndRGB t = new TLEMLELittleElephantAndRGB();
+		String[] in = {"GRGGGRBRGG", "GGGGGGGG", "BRGRBRB"};
+		int m  = 4;
+		long r = t.getNumber(in, m);
+		out.println(r);
 	}
-	
-	
 	long ncl(int n, int c){
 		if(n < c){
 			return 0;

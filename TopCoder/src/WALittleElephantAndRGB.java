@@ -1,13 +1,9 @@
-import java.util.*;
+import java.io.PrintStream;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static java.lang.Math.*;
-import static java.lang.Integer.*;
-
-import java.io.*;
-
-// TLE MLE
-public class LittleElephantAndRGB {
-
+public class WALittleElephantAndRGB {
 	int INF = Integer.MAX_VALUE / 10;
 	double DF = 0.0000000001;
 	static PrintStream out = System.out;
@@ -19,6 +15,7 @@ public class LittleElephantAndRGB {
 	Set<Integer> set = null;
 	List<Integer> list = null;
 	char G = 'G';
+	
 	public long getNumber(String[] list, int M) {
 		long a = 0;
 		String s = "";
@@ -79,10 +76,17 @@ public class LittleElephantAndRGB {
 		}
 		
 		long[][] dpr = new long[N][M+1];
-		for(int i = 0; i < N; i++){
-			dpr[i][M] = dprc[i][M];
+
+		for(int i = N-1; i >= 0; i--){
+			//
 			for(int j = M-1; j >= 0; j--){
 				dpr[i][j] += dpr[i][j+1] + dprc[i][j];
+			}
+		
+			if(i < N-1){
+				for(int j = M-1; j >= 0; j--){
+					dpr[i][j] += dpr[i+1][j] ;
+				}
 			}
 		}
 		
@@ -90,27 +94,30 @@ public class LittleElephantAndRGB {
 		
 		for(int i = 0; i < N-1; i++){
 			a += dplc[i][M] * (ncl(N-i-1, 2)+N-i-1);
-			for(int j = 0; j < M; j++){ // left
-				for(int k = i+1; k < N; k++){
-					int enough = M - j;
-					a += dplc[i][j] * dpr[k][enough];
-				}
+			
+			a += dplc[i][0] * dprc[i+1][M];
+			for(int j = 1; j < M; j++){ // left
+				
+				int enough = M - j;
+				a += dplc[i][j] * (dpr[i+1][enough] + dprc[i+1][M]);
+				
 			}
 		}
 		
 		return a;
 	}
 	
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		LittleElephantAndRGB t = new LittleElephantAndRGB();
-		String[] in = {"GRGGGRBRGG", "GGGGGGGG", "BRGRBRB"};
-		int m  = 4;
-		long r = t.getNumber(in, m);
-		out.println(r);
+		WALittleElephantAndRGB t = new WALittleElephantAndRGB();
+		String[] list = new String[]{"GRGGGRBRGG", "GGGGGGGG", "BRGRBRB"};
+        int minGreen = 4;
+        long expected = 12430L;
+ 
+        long a = t.getNumber(list, minGreen);
+		out.println(a);
 	}
+	
+	
 	long ncl(int n, int c){
 		if(n < c){
 			return 0;

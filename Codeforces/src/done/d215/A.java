@@ -1,3 +1,4 @@
+package done.d215;
 
 
 
@@ -10,7 +11,7 @@ import static java.lang.Integer.*;
 
 
 
-public class B {
+public class A {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -19,43 +20,22 @@ public class B {
 	int N = 0;
 	
 	public void solve() throws Exception{
+
 		int[] t = nextInts();
 		int n = t[0];
-		int m = t[1];
-		int[] d = nextInts();
-		
-		int[] is = new int[m];
-		for(int i = 0; i < m; i++){
-			is[i] = nextInt();
+		int d = t[1];
+		int[] a = nextInts();
+		int m = nextInt();
+		Arrays.sort(a);
+		int ans = 0;
+		int can = min(n, m);
+		for(int i = 0; i < can; i++){
+			ans += a[i];
 		}
-		
-		int[] ans = new int[n];
-		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-		for(int i = 0; i < d.length; i++){
-			if(!map.containsKey(d[i])){
-				map.put(d[i], 0);
-			}
-			int num = map.get(d[i]);
-			num++;
-			map.put(d[i], num);
+		if(m > n){
+			ans -= d * (m - n);
 		}
-		for(int i = 0; i < n; i++){
-			ans[i] = map.keySet().size();
-			int ck = d[i];
-			int num = map.get(ck);
-			num--;
-			if(num == 0){
-				map.remove(ck);
-			}
-			else{
-				map.put(ck, num);
-			}
-		}
-		for(int i = 0; i < m; i++){
-			int a = ans[is[i]-1];
-			out.println(a);
-		}
-		
+		out.println(ans);
 	}
 	
 
@@ -94,7 +74,7 @@ public class B {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		B t = new B();
+		A t = new A();
 		t.solve();
 		bw.close();
 	}

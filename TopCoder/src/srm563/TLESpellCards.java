@@ -5,7 +5,7 @@ import static java.lang.Integer.*;
 import java.io.*;
 
 // 未だTLE
-public class SpellCards {
+public class TLESpellCards {
 
 	int INF = Integer.MAX_VALUE / 100;
 	double DF = 0.0000000001;
@@ -92,7 +92,7 @@ public class SpellCards {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		SpellCards t = new SpellCards();
+		TLESpellCards t = new TLESpellCards();
 		
 		{
 			int[] l = {1,1,1};

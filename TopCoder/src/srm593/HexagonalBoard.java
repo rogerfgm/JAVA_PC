@@ -1,3 +1,4 @@
+package srm593;
 import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
@@ -19,35 +20,69 @@ public class HexagonalBoard {
 	public int minColors(String[] bd){
 		int ans = 0;
 		N = bd.length;
-	
-		int[][] dt = new int[N][N];
+		boolean[][] f = new boolean[N][N];
 		for(int i = 0; i < bd.length; i++){
 			String s = bd[i];
 			for(int j = 0; j < s.length(); j++){
 				if(s.charAt(j) == 'X'){
-					Set<Integer> set = new HashSet<Integer>();
-					if(j > 0){
-						set.add(dt[i][j-1]);
-					}
-					if(j < N-1){
-						set.add(dt[i][j+1]);
-					}
-					if(i > 0){
-						set.add( dt[i-1][j]);
-						if(j < N-1){
-							set.add( dt[i-1][j+1]);
+					f[i][j] = true;
+				}
+			}
+		}
+		int[][] dt = new int[N][N];
+		for(int i = 0; i < bd.length; i++){
+			
+			for(int j = 0; j < N; j++){
+				if(f[i][j] && dt[i][j] == 0){
+					List<Integer> list = new ArrayList<Integer>();
+					list.add(i*N + j);
+					while(list.size() > 0){
+						int next = list.remove(0);
+						int y = next / N;
+						int x = next % N;
+						if(dt[y][x] > 0) continue;
+						Set<Integer> set = new HashSet<Integer>();
+						if(y > 0){
+							set.add(dt[y-1][x]);
+							if(dt[y-1][x] == 0 && f[y-1][x]){
+								list.add(N*(y-1)+x);
+							}
+							if(x < N-1){
+								set.add(dt[y-1][x+1]);
+								if(dt[y-1][x+1] == 0 && f[y-1][x+1]){
+									list.add(N*(y-1)+x+1);
+								}
+							}
 						}
-					}
-					if(i < N-1){
-						set.add( dt[i+1][j]);
-						if(j > 0){
-							set.add( dt[i+1][j-1]);
+						if(x > 0){
+							set.add(dt[y][x-1]);
+							if(dt[y][x-1] == 0 && f[y][x-1]){
+								list.add(N*(y)+x-1);
+							}
 						}
-					}
-					for(int k = 1; ; k++){
-						if(!set.contains(k)){
-							dt[i][j] = k;
-							break;
+						if(x < N-1){
+							set.add(dt[y][x+1]);
+							if(dt[y][x+1] == 0 && f[y][x+1]){
+								list.add(N*(y)+x+1);
+							}
+						}
+						if(y < N-1){
+							set.add(dt[y+1][x]);
+							if(dt[y+1][x] == 0 && f[y+1][x]){
+								list.add(N*(y+1)+x);
+							}
+							if(x > 0){
+								set.add(dt[y+1][x-1]);
+								if(dt[y+1][x-1] == 0 && f[y+1][x-1]){
+									list.add(N*(y+1)+x-1);
+								}
+							}
+						}
+						for(int k = 1; ; k++){
+							if(!set.contains(k)){
+								dt[y][x] = k;
+								break;
+							}
 						}
 					}
 				}
@@ -59,8 +94,15 @@ public class HexagonalBoard {
 				ans = max(ans, dt[i][j]);
 			}
 		}
-
-		
+		for(int i = 0; i < N; i++){
+			for(int j = 0; j < N; j++){
+				out.print(dt[i][j]);
+			}
+			out.println();
+		}
+		if(ans > 3){
+			ans = 3;
+		}
 		
 		return ans;
 	}

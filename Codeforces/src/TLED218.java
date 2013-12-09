@@ -6,12 +6,11 @@ import java.util.*;
 import java.math.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
-import static java.lang.Long.*;
 
 
 
 
-public class Template {
+public class TLED218 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -21,7 +20,61 @@ public class Template {
 	
 	public void solve() throws Exception{
 
+		int n = nextInt();
+		int[] cap = nextInts();
+		int[] d = new int[n];
+		int m = nextInt();
+		int[] next = new int[n];
+		int[] prev = new int[n];
+		next[n-1] = -1;
+		for(int i = 0; i < n-1; i++){
+			next[i] = i+1;
+		}
+		for(int i = 1; i < n; i++){
+			prev[i] = i-1;
+		}
+		prev[0] = -1;
 		
+		for(int t = 0; t < m; t++){
+			int[] in = nextInts();
+			if(in.length == 3){
+				int num = in[2];
+				int idx = in[1] - 1;
+				if(d[idx] + num <= cap[idx]){
+					d[idx] += num;
+					num = 0;
+				}
+				else{
+					num -= cap[idx] - d[idx];
+					d[idx] = cap[idx];
+					while(num > 0 && idx >= 0){
+				
+						if(d[idx] + num < cap[idx]){
+							d[idx] += num;
+							num = 0;
+						}
+						else{
+							num -= cap[idx] - d[idx];
+							d[idx] = cap[idx];
+							int pidx = prev[idx];
+							if(pidx >= 0){
+								next[pidx] = next[idx];
+							}
+							
+							int nextidx = next[idx];
+							if(nextidx != -1){
+								prev[nextidx] = pidx;
+							}
+
+							idx = next[idx];
+						}
+					}
+				}
+			}
+			else{
+				out.println(d[in[1]-1]);
+			}
+		}
 	
 		
 	}
@@ -38,11 +91,6 @@ public class Template {
 	private int nextInt() throws IOException{
 		String s = br.readLine();
 		return parseInt(s);
-	}
-	
-	private long nextLong() throws IOException{
-		String s = br.readLine();
-		return parseLong(s);
 	}
 	
 	private int[] nextInts() throws IOException{
@@ -67,7 +115,7 @@ public class Template {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		Template t = new Template();
+		TLED218 t = new TLED218();
 		t.solve();
 		bw.close();
 	}

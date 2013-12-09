@@ -11,7 +11,7 @@ import static java.lang.Long.*;
 
 
 
-public class Template {
+public class C218 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -21,8 +21,43 @@ public class Template {
 	
 	public void solve() throws Exception{
 
+		String s = br.readLine();
+		int[] ns = nextInts();
+		int[] ps = nextInts();
+		long r = nextLong();
+		long[] ma = new long[3];
+		for(int i = 0; i < s.length(); i++){
+			if(s.charAt(i) == 'B'){
+				ma[0]++;
+			}
+			else if(s.charAt(i) == 'S'){
+				ma[1]++;
+			}
+			else{
+				ma[2]++;
+			}
+		}
 		
-	
+		long max = (long)1000000 * 1000000 + 200;
+		long min = 0;
+		while(min + 1 < max){
+			long mid = (min + max) / 2;
+			long req = 0;
+			for(int i = 0; i < 3; i++){
+				long num = ma[i] * mid - ns[i];
+				if(num <= 0){
+					continue;
+				}
+				req += num * ps[i];
+			}
+			if(req <= r){
+				min = mid;
+			}
+			else{
+				max = mid;
+			}
+		}
+		out.println(min);
 		
 	}
 	
@@ -67,7 +102,7 @@ public class Template {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		Template t = new Template();
+		C218 t = new C218();
 		t.solve();
 		bw.close();
 	}

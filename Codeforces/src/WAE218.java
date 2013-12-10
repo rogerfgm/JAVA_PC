@@ -6,80 +6,75 @@ import java.util.*;
 import java.math.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
+import static java.lang.Long.*;
 
 
 
 
-public class TLED218 {
+public class WAE218 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
 	static PrintStream out = null;
+	static PrintStream err = System.err;
 	static BufferedWriter bw = null;
 	int N = 0;
 	
 	public void solve() throws Exception{
+		N = nextInt();
+		int[] D = nextInts();
+		int K = nextInt();
+		St[] sts = new St[N];
+		for(int i = 0; i < N; i++){
+			sts[i] = new St(i+1, D[i]);
+		}
+		Arrays.sort(sts, new Comparator<St>(){
 
-		int n = nextInt();
-		int[] cap = nextInts();
-		int[] d = new int[n];
-		int m = nextInt();
-		int[] next = new int[n];
-		int[] prev = new int[n];
-		next[n-1] = -1;
-		for(int i = 0; i < n-1; i++){
-			next[i] = i+1;
-		}
-		for(int i = 1; i < n; i++){
-			prev[i] = i-1;
-		}
-		prev[0] = -1;
-		
-		for(int t = 0; t < m; t++){
-			int[] in = nextInts();
-			if(in.length == 3){
-				int num = in[2];
-				int idx = in[1] - 1;
-				if(d[idx] + num <= cap[idx]){
-					d[idx] += num;
-					num = 0;
-				}
-				else{
-					num -= cap[idx] - d[idx];
-					d[idx] = cap[idx];
-					while(num > 0 && idx >= 0){
-				
-						if(d[idx] + num < cap[idx]){
-							d[idx] += num;
-							num = 0;
-						}
-						else{
-							num -= cap[idx] - d[idx];
-							d[idx] = cap[idx];
-							int pidx = prev[idx];
-							if(pidx >= 0){
-								next[pidx] = next[idx];
-							}
-							
-							int nextidx = next[idx];
-							if(nextidx != -1){
-								prev[nextidx] = pidx;
-							}
-
-							idx = next[idx];
-						}
-					}
-				}
+			@Override
+			public int compare(St o1, St o2) {
+				return o1.x - o2.x;
 			}
-			else{
-				out.println(d[in[1]-1]);
-			}
-		}
+			
+		});
+		int ans = 0;
 	
+		long lensum = 0;
+
+		long minsum = lensum;
+		
+		for(int i = 1; i < N-K+1; i++){
+			if(sts[i].idx == 65 || sts[i].idx == 42){
+				err.println( + sts[i-1].x + " " + sts[i].x);
+				err.println( + sts[i+K-2].x + " " + sts[i+K-1].x);
+			}
+			//err.println(sts[i].idx);
+			
+			long minus = (long)(sts[i].x - sts[i-1].x) * (long)K;
+			long plus = (long)(sts[i+K-1].x - sts[i+K-2].x) * (long)K;
+			lensum += plus - minus;
+			if(lensum < minsum){
+				minsum = lensum;
+				ans = i;
+			}
+		}
+		for(int i = 0; i < K; i++){
+			if(i != 0){
+				out.print(" ");
+			}
+			out.print(sts[ans+i].idx);
+		}
 		
 	}
 	
-
+	class St{
+		public St(int idx, int x){
+			this.idx = idx;
+			this.x = x;
+		}
+		int idx = 0;
+		int x = 0;
+	}
+	
     public int[] readIntArray(int n) {
         int[] ret = new int[n];
         for (int i = 0; i < n; i++) {
@@ -87,10 +82,20 @@ public class TLED218 {
         }
         return ret;
     }
+    
+    private String nextS() throws IOException{
+		String s = br.readLine();
+		return s;
+	}
 
 	private int nextInt() throws IOException{
 		String s = br.readLine();
 		return parseInt(s);
+	}
+	
+	private long nextLong() throws IOException{
+		String s = br.readLine();
+		return parseLong(s);
 	}
 	
 	private int[] nextInts() throws IOException{
@@ -115,7 +120,7 @@ public class TLED218 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		TLED218 t = new TLED218();
+		WAE218 t = new WAE218();
 		t.solve();
 		bw.close();
 	}

@@ -6,12 +6,11 @@ import java.util.*;
 import java.math.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
-import static java.lang.Long.*;
 
 
 
 
-public class Template {
+public class D218 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -21,7 +20,53 @@ public class Template {
 	
 	public void solve() throws Exception{
 
+		int n = nextInt();
+		int[] cap = nextInts();
+		int[] d = new int[n];
+		int m = nextInt();
 		
+		TreeSet<Integer> rems = new TreeSet<Integer>();
+		for(int i = 0; i < n; i++){
+			rems.add(i);
+		}
+		
+		for(int t = 0; t < m; t++){
+			int[] in = nextInts();
+			if(in.length == 3){
+				int num = in[2];
+				int idx = in[1] - 1;
+				while(num > 0 && idx >= 0){
+					if(rems.contains(idx)){
+						if(num >= cap[idx] - d[idx]){
+							num -= cap[idx] - d[idx];
+							d[idx] = cap[idx];
+							rems.remove(idx);
+							Integer high = rems.higher(idx);
+							if(high == null){
+								break;
+							}
+							idx = high;
+						}
+						else{
+							d[idx] += num;
+							num = 0;
+						}
+					}
+					else{
+						Integer high = rems.higher(idx);
+						if(high == null){
+							break;
+						}
+						idx = high;
+					}
+				}
+				
+				
+			}
+			else{
+				out.println(d[in[1]-1]);
+			}
+		}
 	
 		
 	}
@@ -34,20 +79,10 @@ public class Template {
         }
         return ret;
     }
-    
-    private String nextS() throws IOException{
-		String s = br.readLine();
-		return s;
-	}
 
 	private int nextInt() throws IOException{
 		String s = br.readLine();
 		return parseInt(s);
-	}
-	
-	private long nextLong() throws IOException{
-		String s = br.readLine();
-		return parseLong(s);
 	}
 	
 	private int[] nextInts() throws IOException{
@@ -72,7 +107,7 @@ public class Template {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		Template t = new Template();
+		D218 t = new D218();
 		t.solve();
 		bw.close();
 	}

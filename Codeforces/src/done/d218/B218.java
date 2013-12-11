@@ -1,3 +1,4 @@
+package done.d218;
 
 
 
@@ -10,43 +11,57 @@ import static java.lang.Integer.*;
 
 
 
-public class A218 {
+public class B218 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
 	static PrintStream out = null;
 	static BufferedWriter bw = null;
 	int N = 0;
-	
+	long base = 1000000007;
+	Map<Long, Integer> map = null;
 	public void solve() throws Exception{
+
 		int[] t = nextInts();
-		int n = t[0];
-		int k = t[1];
-		int[] d = nextInts();
-		int ans = 0;
-		if(n == k){
-			out.println("0");
-			return;
+		int a = t[0];
+		int b = t[1];
+		map = new HashMap<Long, Integer>();
+		int ans = check(a, b);
+		if(ans >= INF){
+			out.println("-1");
 		}
-		for(int i = 0; i < k; i++){
-			int one = 0;
-			int two = 0;
-			for(int j = 0; ; j++){
-				int idx = i + j * k;
-				if(idx >= n){
-					break;
-				}
-				if(d[idx] == 1){
-					one++;
-				}
-				else{
-					two++;
-				}
-			}
-			ans +=  min(one, two);
+		else{
+			out.println(ans);
 		}
-		out.println(ans);
+	
 		
+	}
+	
+	int check(long a, long b){
+		if(a == b){
+			return 0;
+		}
+		if(b > a){
+			long tmp = b;
+			b = a;
+			a = tmp;
+		}
+		long key = a * base + b;
+		if(map.containsKey(key)){
+			return map.get(key);
+		}
+		int ans = INF;
+		if(a % 2 == 0){
+			ans = min(ans, 1 + check(a/2, b));
+		}
+		if(a % 3 == 0){
+			ans = min(ans, 1 + check(a/3, b));
+		}
+		if(a % 5 == 0){
+			ans = min(ans, 1 + check(a/5, b));
+		}
+		map.put(key, ans);
+		return ans;
 	}
 	
 
@@ -62,6 +77,8 @@ public class A218 {
 		String s = br.readLine();
 		return parseInt(s);
 	}
+	
+	
 	
 	private int[] nextInts() throws IOException{
 		String s = br.readLine();
@@ -85,7 +102,7 @@ public class A218 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		A218 t = new A218();
+		B218 t = new B218();
 		t.solve();
 		bw.close();
 	}

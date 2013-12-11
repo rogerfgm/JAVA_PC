@@ -1,3 +1,4 @@
+package done.d218;
 
 
 
@@ -6,11 +7,12 @@ import java.util.*;
 import java.math.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
+import static java.lang.Long.*;
 
 
 
 
-public class D218 {
+public class C218 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -20,54 +22,43 @@ public class D218 {
 	
 	public void solve() throws Exception{
 
-		int n = nextInt();
-		int[] cap = nextInts();
-		int[] d = new int[n];
-		int m = nextInt();
-		
-		TreeSet<Integer> rems = new TreeSet<Integer>();
-		for(int i = 0; i < n; i++){
-			rems.add(i);
-		}
-		
-		for(int t = 0; t < m; t++){
-			int[] in = nextInts();
-			if(in.length == 3){
-				int num = in[2];
-				int idx = in[1] - 1;
-				while(num > 0 && idx >= 0){
-					if(rems.contains(idx)){
-						if(num >= cap[idx] - d[idx]){
-							num -= cap[idx] - d[idx];
-							d[idx] = cap[idx];
-							rems.remove(idx);
-							Integer high = rems.higher(idx);
-							if(high == null){
-								break;
-							}
-							idx = high;
-						}
-						else{
-							d[idx] += num;
-							num = 0;
-						}
-					}
-					else{
-						Integer high = rems.higher(idx);
-						if(high == null){
-							break;
-						}
-						idx = high;
-					}
-				}
-				
-				
+		String s = br.readLine();
+		int[] ns = nextInts();
+		int[] ps = nextInts();
+		long r = nextLong();
+		long[] ma = new long[3];
+		for(int i = 0; i < s.length(); i++){
+			if(s.charAt(i) == 'B'){
+				ma[0]++;
+			}
+			else if(s.charAt(i) == 'S'){
+				ma[1]++;
 			}
 			else{
-				out.println(d[in[1]-1]);
+				ma[2]++;
 			}
 		}
-	
+		
+		long max = (long)1000000 * 1000000 + 200;
+		long min = 0;
+		while(min + 1 < max){
+			long mid = (min + max) / 2;
+			long req = 0;
+			for(int i = 0; i < 3; i++){
+				long num = ma[i] * mid - ns[i];
+				if(num <= 0){
+					continue;
+				}
+				req += num * ps[i];
+			}
+			if(req <= r){
+				min = mid;
+			}
+			else{
+				max = mid;
+			}
+		}
+		out.println(min);
 		
 	}
 	
@@ -83,6 +74,11 @@ public class D218 {
 	private int nextInt() throws IOException{
 		String s = br.readLine();
 		return parseInt(s);
+	}
+	
+	private long nextLong() throws IOException{
+		String s = br.readLine();
+		return parseLong(s);
 	}
 	
 	private int[] nextInts() throws IOException{
@@ -107,7 +103,7 @@ public class D218 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		D218 t = new D218();
+		C218 t = new C218();
 		t.solve();
 		bw.close();
 	}

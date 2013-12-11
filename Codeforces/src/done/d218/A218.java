@@ -1,3 +1,4 @@
+package done.d218;
 
 
 
@@ -6,12 +7,11 @@ import java.util.*;
 import java.math.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
-import static java.lang.Long.*;
 
 
 
 
-public class C218 {
+public class A218 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -20,44 +20,33 @@ public class C218 {
 	int N = 0;
 	
 	public void solve() throws Exception{
-
-		String s = br.readLine();
-		int[] ns = nextInts();
-		int[] ps = nextInts();
-		long r = nextLong();
-		long[] ma = new long[3];
-		for(int i = 0; i < s.length(); i++){
-			if(s.charAt(i) == 'B'){
-				ma[0]++;
-			}
-			else if(s.charAt(i) == 'S'){
-				ma[1]++;
-			}
-			else{
-				ma[2]++;
-			}
+		int[] t = nextInts();
+		int n = t[0];
+		int k = t[1];
+		int[] d = nextInts();
+		int ans = 0;
+		if(n == k){
+			out.println("0");
+			return;
 		}
-		
-		long max = (long)1000000 * 1000000 + 200;
-		long min = 0;
-		while(min + 1 < max){
-			long mid = (min + max) / 2;
-			long req = 0;
-			for(int i = 0; i < 3; i++){
-				long num = ma[i] * mid - ns[i];
-				if(num <= 0){
-					continue;
+		for(int i = 0; i < k; i++){
+			int one = 0;
+			int two = 0;
+			for(int j = 0; ; j++){
+				int idx = i + j * k;
+				if(idx >= n){
+					break;
 				}
-				req += num * ps[i];
+				if(d[idx] == 1){
+					one++;
+				}
+				else{
+					two++;
+				}
 			}
-			if(req <= r){
-				min = mid;
-			}
-			else{
-				max = mid;
-			}
+			ans +=  min(one, two);
 		}
-		out.println(min);
+		out.println(ans);
 		
 	}
 	
@@ -73,11 +62,6 @@ public class C218 {
 	private int nextInt() throws IOException{
 		String s = br.readLine();
 		return parseInt(s);
-	}
-	
-	private long nextLong() throws IOException{
-		String s = br.readLine();
-		return parseLong(s);
 	}
 	
 	private int[] nextInts() throws IOException{
@@ -102,7 +86,7 @@ public class C218 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		C218 t = new C218();
+		A218 t = new A218();
 		t.solve();
 		bw.close();
 	}

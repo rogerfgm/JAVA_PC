@@ -4,7 +4,6 @@
 import java.io.*;
 import java.util.*;
 import java.math.*;
-
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
 import static java.lang.Long.*;
@@ -12,7 +11,7 @@ import static java.lang.Long.*;
 
 
 
-public class Template {
+public class B219 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -22,8 +21,39 @@ public class Template {
 	
 	public void solve() throws Exception{
 
+		long[] t = nextLongs();
+		long w = t[0];
+		long m = t[1];
+		long k = t[2];
 		
+		long len = 0;
+		long tm = m;
+		while(tm > 0){
+			tm /= 10;
+			len++;
+		}
 	
+		long ans = 0;
+		BigInteger bk = new BigInteger(Long.toString(k));
+		while(true){
+			long next = (long)pow(10, len)-1;
+			long cnt = next - m + 1;
+			BigInteger cntB = new BigInteger(Long.toString(cnt));
+			BigInteger lenB = new BigInteger(Long.toString(len));
+			BigInteger bw = new BigInteger(Long.toString(w));
+			if(cntB.multiply(lenB).multiply(bk).compareTo(bw) < 0){
+				w -= cntB.multiply(lenB).multiply(bk).longValue();
+				ans += cnt;
+				len++;
+				m = next + 1;
+			}
+			else{
+				cnt = w / (lenB.multiply(bk).longValue());
+				ans += cnt;
+				break;
+			}
+		}
+		out.println(ans);
 		
 	}
 	
@@ -83,7 +113,7 @@ public class Template {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		Template t = new Template();
+		B219 t = new B219();
 		t.solve();
 		bw.close();
 	}

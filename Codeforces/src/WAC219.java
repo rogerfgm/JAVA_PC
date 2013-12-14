@@ -3,6 +3,7 @@
 
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 import java.math.*;
 
 import static java.lang.Math.*;
@@ -12,7 +13,7 @@ import static java.lang.Long.*;
 
 
 
-public class Template {
+public class WAC219 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -21,12 +22,53 @@ public class Template {
 	int N = 0;
 	
 	public void solve() throws Exception{
-
-		
+		N = nextInt();
 	
+		TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+		for(int i = 0; i < N; i++){
+			int d = nextInt();
+	
+			if(map.containsKey(d)){
+				int cnt = map.get(d);
+				map.put(d, cnt+1);
+			}
+			else{
+				map.put(d, 1);
+			}
+		}
+	
+
+		int ans = 0;
+		while(!map.isEmpty()){
+		
+			int d = map.lastKey();
+			int div = d/2;
+			if(map.lowerKey(div+1) == null){
+				break;
+			}
+			int low = map.lowerKey(div+1);
+			remove(map, d);
+			remove(map, low);
+			
+			ans++;
+		}
+		for(Integer key : map.keySet()){
+			ans += map.get(key);
+		}
+		
+		out.println(ans);
 		
 	}
 	
+	void remove(TreeMap<Integer, Integer> map, Integer d){
+		int cnt = map.get(d);
+		if(cnt == 1){
+			map.remove(d);
+		}
+		else{
+			map.put(d, cnt-1);
+		}
+	}
 
     public int[] readIntArray(int n) {
         int[] ret = new int[n];
@@ -60,16 +102,6 @@ public class Template {
 		}
 		return r;
 	}
-	
-	private long[] nextLongs() throws IOException{
-		String s = br.readLine();
-		String[] sp = s.split(" ");
-		long[] r = new long[sp.length];
-		for(int i = 0;i < sp.length; i++){
-			r[i] = parseLong(sp[i]);
-		}
-		return r;
-	}
     
 	/**
 	 * @param args
@@ -83,7 +115,7 @@ public class Template {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		Template t = new Template();
+		WAC219 t = new WAC219();
 		t.solve();
 		bw.close();
 	}

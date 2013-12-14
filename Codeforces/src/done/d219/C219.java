@@ -1,3 +1,4 @@
+package done.d219;
 
 
 
@@ -13,7 +14,7 @@ import static java.lang.Long.*;
 
 
 
-public class WAC219 {
+public class C219 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -23,38 +24,45 @@ public class WAC219 {
 	
 	public void solve() throws Exception{
 		N = nextInt();
-	
-		TreeMap<Integer, Integer> map = new TreeMap<Integer, Integer>();
+		int[] d = new int[N];
 		for(int i = 0; i < N; i++){
-			int d = nextInt();
-	
-			if(map.containsKey(d)){
-				int cnt = map.get(d);
-				map.put(d, cnt+1);
+			d[i] = nextInt();
+		}
+		Arrays.sort(d);
+		int l = (N+1) / 2;
+		int r = N;
+		boolean f = true;
+		for(int i = 0; i < N/2; i++){
+			if(d[i] * 2 > d[i+l]){
+				f = false;
+			}
+		}
+		if(f){
+			int ans = N - N/2;
+			out.println(ans);
+			return ;
+		}
+		
+		while(l + 1 < r){
+			int mid = (l + r ) / 2;
+			boolean flag = true;
+			for(int i = 0; i + mid < N; i++){
+				if(d[i] * 2 > d[mid + i]){
+					flag = false;
+					break;
+				}
+			}
+			if(flag){
+				r = mid;
 			}
 			else{
-				map.put(d, 1);
+				l = mid;
 			}
 		}
-	
-
-		int ans = 0;
-		while(!map.isEmpty()){
 		
-			int d = map.lastKey();
-			int div = d/2;
-			if(map.lowerKey(div+1) == null){
-				break;
-			}
-			int low = map.lowerKey(div+1);
-			remove(map, d);
-			remove(map, low);
-			
-			ans++;
-		}
-		for(Integer key : map.keySet()){
-			ans += map.get(key);
-		}
+	
+		int ans = r;
+		
 		
 		out.println(ans);
 		
@@ -115,7 +123,7 @@ public class WAC219 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		WAC219 t = new WAC219();
+		C219 t = new C219();
 		t.solve();
 		bw.close();
 	}

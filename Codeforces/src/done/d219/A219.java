@@ -1,3 +1,4 @@
+package done.d219;
 
 
 
@@ -11,7 +12,7 @@ import static java.lang.Long.*;
 
 
 
-public class B219 {
+public class A219 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -20,40 +21,29 @@ public class B219 {
 	int N = 0;
 	
 	public void solve() throws Exception{
-
-		long[] t = nextLongs();
-		long w = t[0];
-		long m = t[1];
-		long k = t[2];
+		N = nextInt() * 2;
 		
-		long len = 0;
-		long tm = m;
-		while(tm > 0){
-			tm /= 10;
-			len++;
+		int[] d = new int[10];
+		for(int i = 0; i < 4; i++){
+			String s = nextS();
+			for(int j = 0; j < 4; j++){
+				char c = s.charAt(j);
+				if(c == '.') continue;
+				int idx = c - '0';
+				d[idx]++;
+			}
 		}
+		String no = "NO";
+		String yes = "YES";
+		
+		for(int i = 1; i <= 9; i++){
+			if(d[i] > N){
+				out.println(no);
+				return;
+			}
+		}
+		out.println(yes);
 	
-		long ans = 0;
-		BigInteger bk = new BigInteger(Long.toString(k));
-		while(true){
-			long next = (long)pow(10, len)-1;
-			long cnt = next - m + 1;
-			BigInteger cntB = new BigInteger(Long.toString(cnt));
-			BigInteger lenB = new BigInteger(Long.toString(len));
-			BigInteger bw = new BigInteger(Long.toString(w));
-			if(cntB.multiply(lenB).multiply(bk).compareTo(bw) < 0){
-				w -= cntB.multiply(lenB).multiply(bk).longValue();
-				ans += cnt;
-				len++;
-				m = next + 1;
-			}
-			else{
-				cnt = w / (lenB.multiply(bk).longValue());
-				ans += cnt;
-				break;
-			}
-		}
-		out.println(ans);
 		
 	}
 	
@@ -90,16 +80,6 @@ public class B219 {
 		}
 		return r;
 	}
-	
-	private long[] nextLongs() throws IOException{
-		String s = br.readLine();
-		String[] sp = s.split(" ");
-		long[] r = new long[sp.length];
-		for(int i = 0;i < sp.length; i++){
-			r[i] = parseLong(sp[i]);
-		}
-		return r;
-	}
     
 	/**
 	 * @param args
@@ -113,7 +93,7 @@ public class B219 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		B219 t = new B219();
+		A219 t = new A219();
 		t.solve();
 		bw.close();
 	}

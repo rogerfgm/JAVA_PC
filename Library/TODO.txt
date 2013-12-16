@@ -1,0 +1,7 @@
+ListBinarySearchでhigher, lowerを作る
+
+Houteisikiでgauss Jourdan実装
+
+
+
+

@@ -13,7 +13,7 @@ import static java.lang.Long.*;
 
 
 
-public class TLED219 {
+public class D219 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -22,68 +22,101 @@ public class TLED219 {
 	int N = 0;
 	
 	public void solve() throws Exception{
-		int[] z = nextInts();
-		int n = z[0];
-		int m = z[1];
-		int Q = z[2];
+		int[] tm = nextInts();
+		int n = tm[0];
+		int m = tm[1];
+		int Q = tm[2];
+	
 		boolean[][] d = new boolean[n][m];
 		for(int i = 0; i < n; i++){
 			String s = nextS();
-			for(int j = 0; j < s.length(); j++){
-				if(s.charAt(j) == '0'){
+			for(int j = 0; j < m; j++){
+				char c = s.charAt(j);
+				if(c == '0'){
 					d[i][j] = true;
 				}
 			}
 		}
-		int[][][][] dp = new int[n][n][m][m];
+		boolean[][][][] f = new boolean[n][m][n][m];
 		for(int i = 0; i < n; i++){
-			for(int j = 0; j < n; j++){
-				for(int k = 0; k < m; k++){
-					for(int p = 0; p < m; p++){
-						dp[i][j][k][p] = -1;
+			for(int j = 0; j < m; j++){
+				if(d[i][j]){
+					int r = i;
+					for(int k = j; k < m; k++){
+						if(d[i][k]){
+							r = k;
+							f[i][j][i][k] = true;
+						}
+						else{
+							break;
+						}
 					}
-				}
-			}
-		}
-		
-		
-		
-		for(int q = 0; q < Q; q++){
-			z = nextInts();
-			int u = z[0] - 1;
-			int b = z[2] - 1;
-			int l = z[1] - 1;
-			int r = z[3] - 1;
-			if(dp[u][b][l][r] != -1){
-				out.println(dp[u][b][l][r]);
-				continue;
-			}
-			int cnt = 0;
-			for(int i = 1; i <= n; i++){
-				for(int j = 1; j <= m; j++){
-					
-					for(int y = u; y+i <= b+1; y++){
-						for(int x = l; x + j <= r+1; x++){
-
-							boolean f = true;
-							for(int Y = 0; Y < i; Y++){
-								for(int X = 0; X < j; X++){
-									if(!d[y+Y][x+X]){
-										f = false;
-									}
-								}
+					for(int k = i; k < n; k++){
+						if(!d[k][j]){
+							break;
+						}
+						for(int p = j; p <= r; p++){
+							if(d[k][p]){
+								f[i][j][k][p] = true;
 							}
-							if(f){
-								cnt++;
+							else{
+								r = p-1;
+								break;
 							}
 						}
 					}
 				}
 			}
-			dp[u][b][l][r] = cnt;
-			out.println(cnt);
 		}
-	
+		int[][][][] fwd = new int[n][m][n][m];
+		for(int i = 0; i < n; i++){
+			for(int j = 0; j < m; j++){
+				for(int k = i; k < n; k++){
+					for(int p = j; p < m; p++){
+						if(f[i][j][k][p]){
+							fwd[i][j][k][p]++;
+						}
+						if(k > i && p > j){
+							fwd[i][j][k][p] += fwd[i][j][k-1][p] + fwd[i][j][k][p-1] - fwd[i][j][k-1][p-1];
+						}
+						else if(k > i){
+							fwd[i][j][k][p] += fwd[i][j][k-1][p];
+						}
+						else if(p > j){
+							fwd[i][j][k][p] += fwd[i][j][k][p-1];
+						}
+					}
+				}
+			}
+		}
+		int[][][][] dp = new int[n][m][n][m];
+		for(int i = n-1; i >= 0; i--){
+			for(int j = m-1; j >= 0; j--){
+				for(int k = i; k >= 0; k--){
+					for(int p = j; p >= 0; p--){
+						dp[k][p][i][j] += fwd[k][p][i][j];
+						if(k < i && p < j ){
+							dp[k][p][i][j] += dp[k+1][p][i][j] + dp[k][p+1][i][j] - dp[k+1][p+1][i][j];
+						}
+						else if(k < i){
+							dp[k][p][i][j] += dp[k+1][p][i][j];
+						}
+						else if(p < j){
+							dp[k][p][i][j] += dp[k][p+1][i][j];
+						}
+					}
+				}
+			}
+		}
+		for(int q = 0; q < Q; q++){
+			tm = nextInts();
+			int i = tm[0]-1;
+			int j = tm[1]-1;
+			int k = tm[2]-1;
+			int p = tm[3]-1;
+			out.println(dp[i][j][k][p]);
+			
+		}
 		
 	}
 	
@@ -143,7 +176,7 @@ public class TLED219 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		TLED219 t = new TLED219();
+		D219 t = new D219();
 		t.solve();
 		bw.close();
 	}

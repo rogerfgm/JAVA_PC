@@ -22,11 +22,107 @@ public class D217 {
 	
 	public void solve() throws Exception{
 
+		int[] t = nextInts();
+		int n = t[0];
+		int m = t[1];
 		
-	
-		
+		boolean[][] w = new boolean[n][m];
+		boolean[][] p = new boolean[n][m];
+		int lx = INF;
+		int rx = -1;
+		int uy = INF;
+		int by = -1;
+		int cnt = 0;
+		for(int i = 0; i < n; i++){
+			String s = nextS();
+			for(int j = 0; j < m; j++){
+				if(s.charAt(j) != '.'){
+					w[i][j] = true;
+					lx = min(lx, j);
+					rx = max(rx, j);
+					uy = min(uy, i);
+					by = max(by, i);
+					cnt++;
+				}
+			}
+		}
+		if(cnt == 1){
+			write(w, p);
+		}
+		else{
+			int width = max(rx - lx, by - uy);
+			if(rx - lx >= by - uy){
+				for(int i = 0; i + width < n; i++){
+					int b = i + width;
+					int c = 0;
+					for(int j = lx; j <= rx; j++){
+						if(w[i][j]) c++;
+						if(w[b][j]) c++;
+					}
+					for(int k = i+1; k < i + width; k++){
+						if(w[k][lx]) c++;
+						if(w[k][rx]) c++;
+					}
+					if(c == cnt){
+						for(int j = lx; j <= rx; j++){
+							if(!w[i][j]) p[i][j] = true;
+							if(!w[b][j]) p[b][j] = true;
+						}
+						for(int k = i+1; k < i + width; k++){
+							if(!w[k][lx]) p[k][lx] = true;
+							if(!w[k][rx]) p[k][rx] = true;
+						}
+						write(w, p);
+						return;
+					}
+				}
+			}
+			if(by - uy >= rx - lx){
+				for(int i = 0; i + width < m; i++){
+					int r = i + width;
+					int c = 0;
+					for(int j = uy; j <= by; j++){
+						if(w[j][i]) c++;
+						if(w[j][r]) c++;
+					}
+					for(int j = i+1; j < i + width; j++){
+						if(w[uy][j]) c++;
+						if(w[by][j]) c++;
+					}
+					if(c == cnt){
+						for(int j = uy; j <= by; j++){
+							if(!w[j][i]) p[j][i] = true;
+							if(!w[j][r]) p[j][r] = true;
+						}
+						for(int j = i+1; j < i + width; j++){
+							if(!w[uy][j]) p[uy][j] = true;
+							if(!w[by][j]) p[by][j] = true;
+						}
+						write(w, p);
+						return;
+					}
+				}
+			}
+		}
+		out.println("-1");
 	}
 	
+	void write(boolean[][] w, boolean[][] p){
+		for(int i = 0; i < w.length; i++){
+			for(int j = 0; j < w[0].length; j++){
+				if(w[i][j]){
+					out.print("w");;
+				}
+				else if(p[i][j]){
+					out.print("+");
+				}
+				else{
+					out.print(".");
+				}
+			}
+			out.println();
+		}
+	}
 
     public int[] readIntArray(int n) {
         int[] ret = new int[n];

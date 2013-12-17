@@ -1,9 +1,12 @@
+package done.d219;
 
 
 
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 import java.math.*;
+
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
 import static java.lang.Long.*;
@@ -11,7 +14,7 @@ import static java.lang.Long.*;
 
 
 
-public class B219 {
+public class C219 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -20,43 +23,60 @@ public class B219 {
 	int N = 0;
 	
 	public void solve() throws Exception{
-
-		long[] t = nextLongs();
-		long w = t[0];
-		long m = t[1];
-		long k = t[2];
-		
-		long len = 0;
-		long tm = m;
-		while(tm > 0){
-			tm /= 10;
-			len++;
+		N = nextInt();
+		int[] d = new int[N];
+		for(int i = 0; i < N; i++){
+			d[i] = nextInt();
 		}
-	
-		long ans = 0;
-		BigInteger bk = new BigInteger(Long.toString(k));
-		while(true){
-			long next = (long)pow(10, len)-1;
-			long cnt = next - m + 1;
-			BigInteger cntB = new BigInteger(Long.toString(cnt));
-			BigInteger lenB = new BigInteger(Long.toString(len));
-			BigInteger bw = new BigInteger(Long.toString(w));
-			if(cntB.multiply(lenB).multiply(bk).compareTo(bw) < 0){
-				w -= cntB.multiply(lenB).multiply(bk).longValue();
-				ans += cnt;
-				len++;
-				m = next + 1;
+		Arrays.sort(d);
+		int l = (N+1) / 2;
+		int r = N;
+		boolean f = true;
+		for(int i = 0; i < N/2; i++){
+			if(d[i] * 2 > d[i+l]){
+				f = false;
+			}
+		}
+		if(f){
+			int ans = N - N/2;
+			out.println(ans);
+			return ;
+		}
+		
+		while(l + 1 < r){
+			int mid = (l + r ) / 2;
+			boolean flag = true;
+			for(int i = 0; i + mid < N; i++){
+				if(d[i] * 2 > d[mid + i]){
+					flag = false;
+					break;
+				}
+			}
+			if(flag){
+				r = mid;
 			}
 			else{
-				cnt = w / (lenB.multiply(bk).longValue());
-				ans += cnt;
-				break;
+				l = mid;
 			}
 		}
+		
+	
+		int ans = r;
+		
+		
 		out.println(ans);
 		
 	}
 	
+	void remove(TreeMap<Integer, Integer> map, Integer d){
+		int cnt = map.get(d);
+		if(cnt == 1){
+			map.remove(d);
+		}
+		else{
+			map.put(d, cnt-1);
+		}
+	}
 
     public int[] readIntArray(int n) {
         int[] ret = new int[n];
@@ -90,16 +110,6 @@ public class B219 {
 		}
 		return r;
 	}
-	
-	private long[] nextLongs() throws IOException{
-		String s = br.readLine();
-		String[] sp = s.split(" ");
-		long[] r = new long[sp.length];
-		for(int i = 0;i < sp.length; i++){
-			r[i] = parseLong(sp[i]);
-		}
-		return r;
-	}
     
 	/**
 	 * @param args
@@ -113,7 +123,7 @@ public class B219 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		B219 t = new B219();
+		C219 t = new C219();
 		t.solve();
 		bw.close();
 	}

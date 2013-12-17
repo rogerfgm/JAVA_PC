@@ -1,5 +1,5 @@
 
-public class Matrix {
+public class MatrixMy {
 
 	
 	class Mat{
@@ -52,7 +52,7 @@ public class Matrix {
 	}
 	
 	public static void main(String[] args){
-		Matrix m = new Matrix();
+		MatrixMy m = new MatrixMy();
 		m.test();
 	}
 }

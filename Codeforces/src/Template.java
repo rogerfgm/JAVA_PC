@@ -20,6 +20,7 @@ public class Template {
 	static BufferedWriter bw = null;
 	int N = 0;
 	
+	
 	public void solve() throws Exception{
 
 		
@@ -69,6 +70,30 @@ public class Template {
 			r[i] = parseLong(sp[i]);
 		}
 		return r;
+	}
+	
+	void pl(String s){
+		try{
+			bw.write(s);
+		}
+		catch(Exception ex){
+		}
+	}
+	
+	void pln(String s){
+		try{
+			bw.write(s);
+			bw.write(System.lineSeparator());
+		}
+		catch(Exception ex){
+		}
+	}
+	void pln(){
+		try{
+			bw.write(System.lineSeparator());
+		}
+		catch(Exception ex){
+		}
 	}
     
 	/**

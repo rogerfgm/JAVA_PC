@@ -1,3 +1,4 @@
+package done.d217;
 
 
 
@@ -12,7 +13,7 @@ import static java.lang.Long.*;
 
 
 
-public class B217 {
+public class A217 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -21,42 +22,22 @@ public class B217 {
 	int N = 0;
 	
 	public void solve() throws Exception{
-		N = nextInt();
-		int[][] d = new int[N][100];
-		for(int i = 0; i < N; i++){
-			int[] t = nextInts();
-			for(int j = 0; j < t[0]; j++){
-				d[i][j] = t[j+1];
-			}
+		int[] t = nextInts();
+		int a1 = 2;
+		if(t[0] == t[2] || t[1] == t[3]){
+			a1 = 1;
 		}
-		for(int i = 0; i < N; i++){
-			boolean f = true;
-			for(int j = 0; j < N; j++){
-				if(j == i) continue;
-				Set<Integer> set = new HashSet<Integer>();
-				for(int k = 0; k < 100; k++){
-					if(d[j][k] == 0) break;
-					set.add(d[j][k]);
-				}
-				for(int k = 0; k < 100; k++){
-					if(d[i][k] == 0) break;
-					if(set.contains(d[i][k])){
-						set.remove(d[i][k]);
-					}
-				}
-				if(set.size() == 0){
-					f = false;
-					break;
-				}
-			}
-			if(f){
-				out.println("YES");
+		int a2 = 0;
+		if( (abs(t[0] - t[2]) + abs(t[1] - t[3])) % 2 == 0 ){
+			if(abs(t[0] - t[2]) == abs(t[1] - t[3])){
+				a2 = 1;
 			}
 			else{
-				out.println("NO");
+				a2 = 2;
 			}
 		}
-		
+		int a3 = max(abs(t[0] - t[2]), abs(t[1] - t[3]));
+		out.println(a1 + " " + a2 + " " + a3);
 	
 		
 	}
@@ -117,7 +98,7 @@ public class B217 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		B217 t = new B217();
+		A217 t = new A217();
 		t.solve();
 		bw.close();
 	}

@@ -1,3 +1,4 @@
+package done.d217;
 
 
 
@@ -48,6 +49,7 @@ public class D217 {
 		}
 		if(cnt == 1){
 			write(w, p);
+			return;
 		}
 		else{
 			int width = max(rx - lx, by - uy);
@@ -108,20 +110,23 @@ public class D217 {
 	}
 	
 	void write(boolean[][] w, boolean[][] p){
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < w.length; i++){
 			for(int j = 0; j < w[0].length; j++){
 				if(w[i][j]){
-					out.print("w");;
+					sb.append("w");
+			
 				}
 				else if(p[i][j]){
-					out.print("+");
+					sb.append("+");
 				}
 				else{
-					out.print(".");
+					sb.append(".");
 				}
 			}
-			out.println();
+			sb.append("\n");
 		}
+		out.print(sb);
 	}
 
     public int[] readIntArray(int n) {

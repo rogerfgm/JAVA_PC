@@ -6,7 +6,7 @@ import java.io.*;
 public class Template {
 
 	int INF = Integer.MAX_VALUE / 10;
-	double DF = 0.0000000001;
+	final double EPS = 1E-8;
 	static PrintStream out = System.out;
 	final int MOD = 1000000007;
 	

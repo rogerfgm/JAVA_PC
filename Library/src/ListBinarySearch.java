@@ -4,70 +4,115 @@ import java.util.List;
 
 public class ListBinarySearch {
 
-	int find(List<Integer> l, int v){
+	int higher(List<Integer> l, int v){
 		if(l.size() == 0){
+			return -1;
+		}
+		int R = l.size()-1;
+		if(l.get(R).intValue() <= v){
+			return -1;
+		}
+		int L = 0;
+		if(l.get(L).intValue() > v){
 			return 0;
 		}
-		if(l.get(l.size()-1).intValue() < v){
-			return l.size();
-		}
-		if(l.get(l.size()-1).intValue() == v){
-			return l.size()-1;
-		}
-		if(l.get(0).intValue() >= v){
-			return 0;
-		}
-		
-		int min = 0;
-		int max = l.size()-1;
-		while(min + 1 < max){
-			int mid = (min + max) / 2;
-			int midval = l.get(mid).intValue();
-			if(midval == v){
-				return mid;
-			}
-			else if(midval > v){
-				max = mid;
+		while(L + 1 < R){
+			int m = (R + L)/2;
+			if(l.get(m).intValue() > v){
+				R = m;
 			}
 			else{
-				min = mid;
+				L = m;
 			}
 		}
-		return max;
+		return R;
 	}
 	
-	<T> int find(List<T> l, T t, Comparator<T> comp){
+	<T> int higher(List<T> l, T v, Comparator<T> comp){
 		
 		if(l.size() == 0){
-			return 0;
+			return -1;
 		}
-		if(comp.compare(l.get(l.size()-1), t) < 0){
-			return l.size();
+		
+		int R = l.size()-1;
+		int L = 0;
+		if(comp.compare(l.get(R), v) <= 0){
+			return -1;
 		}
-		if(comp.compare(l.get(l.size()-1), t) == 0){
-			return l.size()-1;
-		}
-		if(comp.compare(l.get(0), t) >= 0){
+		if(comp.compare(l.get(L), v) > 0){
 			return 0;
 		}
 		
-		int min = 0;
-		int max = l.size()-1;
-		while(min + 1 < max){
-			int mid = (min + max) / 2;
+
+
+		while(L + 1 < R){
+			int mid = (L + R) / 2;
 			T midval = l.get(mid);
-			if(comp.compare(t, midval) == 0){
-				return mid;
-			}
-			else if(comp.compare(t, midval) < 0){
-				max = mid;
+			if(comp.compare(midval, v) > 0){
+				L = mid;
 			}
 			else{
-				min = mid;
+				R = mid;
 			}
 		}
-		return max;
+		return R;
 	}
+	
+	int equalhigher(List<Integer> l, int v){
+		if(l.size() == 0){
+			return -1;
+		}
+		int R = l.size()-1;
+		if(l.get(R).intValue() < v){
+			return -1;
+		}
+		int L = 0;
+		if(l.get(L).intValue() >= v){
+			return 0;
+		}
+		while(L + 1 < R){
+			int m = (R + L)/2;
+			if(l.get(m).intValue() >= v){
+				R = m;
+			}
+			else{
+				L = m;
+			}
+		}
+		return R;
+	}
+	
+	<T> int equalhigher(List<T> l, T v, Comparator<T> comp){
+		
+		if(l.size() == 0){
+			return -1;
+		}
+		
+		int R = l.size()-1;
+		int L = 0;
+		if(comp.compare(l.get(R), v) < 0){
+			return -1;
+		}
+		if(comp.compare(l.get(L), v) >= 0){
+			return 0;
+		}
+		
+
+
+		while(L + 1 < R){
+			int mid = (L + R) / 2;
+			T midval = l.get(mid);
+			if(comp.compare(midval, v) >= 0){
+				L = mid;
+			}
+			else{
+				R = mid;
+			}
+		}
+		return R;
+	}
+	
+	
 	
 	
 	/**

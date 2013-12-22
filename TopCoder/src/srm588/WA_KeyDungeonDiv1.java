@@ -1,9 +1,10 @@
+package srm588;
 import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
 import java.io.*;
 
-public class KeyDungeonDiv1 {
+public class WA_KeyDungeonDiv1 {
 
 	int INF = Integer.MAX_VALUE / 10;
 	final double EPS = 1E-8;
@@ -79,7 +80,7 @@ public class KeyDungeonDiv1 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		KeyDungeonDiv1 t = new KeyDungeonDiv1();
+		WA_KeyDungeonDiv1 t = new WA_KeyDungeonDiv1();
 		int[] i1 = {9,5,10,8,4,3,0,8,4,1,3,9};
 		int[] i2 = {9,10,0,8,9,4,3,8,1,8,10,4};
 		int[] i3 = {1,2,0,2,3,3,5,3,1,3,0,5};

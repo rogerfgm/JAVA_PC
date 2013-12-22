@@ -1,9 +1,10 @@
+package srm586;
 import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
 import java.io.*;
 
-public class History {
+public class NOT_History {
 
 	int INF = Integer.MAX_VALUE / 10;
 	final double EPS = 1E-8;
@@ -69,7 +70,7 @@ public class History {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		History t = new History();
+		NOT_History t = new NOT_History();
 		String[] dy = {"1 2 4",
 		 "1 2 3"};
 		String[] ba = {"A1-B0"};

@@ -1,3 +1,4 @@
+package srm588;
 import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
@@ -16,7 +17,7 @@ public class GUMIAndSongsDiv1 {
 	Set<Integer> set = null;
 	List<Integer> list = null;
 	
-	int maxSongs(int[] ds, int[] ts, int T){
+	public int maxSongs(int[] ds, int[] ts, int T){
 		int ans = 0;
 		N = ds.length;
 		C[] cs = new C[N];

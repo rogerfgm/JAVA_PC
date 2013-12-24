@@ -1,11 +1,12 @@
 import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
+import static java.lang.Long.*;
 import java.io.*;
 
-public class Template {
+public class $CLASSNAME$ {
 
-	final int INF = Integer.MAX_VALUE / 10;
+	int INF = Integer.MAX_VALUE / 10;
 	final double EPS = 1E-8;
 	static PrintStream out = System.out;
 	final int MOD = 1000000007;
@@ -15,13 +16,14 @@ public class Template {
 	Map<Integer, Integer> map = null;
 	Set<Integer> set = null;
 	List<Integer> list = null;
-	
-	
-	/**
-	 * @param args
-	 */
+
+	public $RETURNTYPE$ $METHODNAME$($METHODPARAMS$) {
+		return $DUMMYRETURN$;
+	}
+
 	public static void main(String[] args) {
-		Template t = new Template();
+		$CLASSNAME$ t = new $CLASSNAME$();
+		$RETURNTYPE$ r;
 
 		out.println();
 	}

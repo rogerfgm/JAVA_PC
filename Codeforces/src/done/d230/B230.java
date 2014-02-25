@@ -1,3 +1,4 @@
+package done.d230;
 
 
 
@@ -12,7 +13,7 @@ import static java.lang.Long.*;
 
 
 
-public class B231 {
+public class B230 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -22,75 +23,43 @@ public class B231 {
 	
 	
 	public void solve() throws Exception{
-
-		String s = br.readLine();
-		String[] sp = s.split(" ");
-		int p = parseInt(sp[0]);
-		int Y = parseInt(sp[1]);
+		N = parseInt(br.readLine());
+		int[][] w = new int[N][N];
+		double[][] a = new double[N][N];
+		double[][] b = new double[N][N];
 		
-		
-		BigInteger b10 = BigInteger.valueOf(10);
-		BigInteger by = BigInteger.valueOf(Y);
-		BigInteger bp = BigInteger.valueOf(p);
-		BigInteger b10p = b10.pow(p-1);
-		BigInteger one = BigInteger.valueOf(1);
-		BigInteger zero = BigInteger.valueOf(0);
-	
-		
-		BigInteger sub = b10p.subtract(by);
-		BigInteger right = by.multiply(b10).subtract(one);
-		BigInteger ans = null;
-		for(int i = 1; i <= 9; i++){
-			BigInteger A = BigInteger.valueOf(i);
-			BigInteger left = A.multiply(sub);
-			BigInteger[] div = left.divideAndRemainder(right);
-		
-			
-			if(div[0].toString().length() == p-1 && div[0].compareTo(zero) > 0 && div[1].equals(zero)){
-				BigInteger a = div[0].multiply(b10).add(A);
-				if(ans == null){
-					ans = a;
-				}
-				else{
-					if(a.compareTo(ans) < 0){
-						ans = a;
-					}
-				}
-				
+		for(int i = 0; i < N; i++){
+			String s = br.readLine();
+			String[] sp = s.split(" ");
+			for(int j = 0; j < N; j++){
+				w[i][j] = parseInt(sp[j]);
 			}
-			
+			a[i][i] = w[i][i];
 		}
-		if(ans != null){
-			bw.write(ans.toString());
-		}
-		else{
-			bw.write("Impossible");
-		}
-		return;
 		
-//		
-//		
-//		int Ya = Y % 10;
-//		BigInteger bya = BigInteger.valueOf(Ya);
-//		BigInteger one = BigInteger.valueOf(1);
-//		BigInteger right = by.multiply(b10).subtract(one);
-//		
-//		BigInteger left = bya.multiply(b10p);
-//		
-//		BigInteger b0 = BigInteger.valueOf(0);
-//		if(right.equals(b0)){
-//			bw.write("Impossible");
-//			return;
-//		}
-//		if(left.remainder(right).equals(b0)){
-//			BigInteger ans = left.divide(right);
-//			bw.write(ans.toString());
-//			return;
-//		}
-//		else{
-//			bw.write("Impossible");
-//			return;
-//		}
+		for(int i = 0; i < N; i++){
+			for(int j = 0; j < i; j++){
+				int W = w[i][j] + w[j][i];
+				a[i][j] = a[j][i] = W / 2.0;
+				b[i][j] = (w[i][j] - w[j][i]) / 2.0;
+				b[j][i] = -b[i][j];
+			}
+		}
+		for(int i = 0; i < N; i++){
+			for(int j = 0; j < N; j++){
+				if(j != 0) bw.write(" ");
+				bw.write(Double.toString(a[i][j]));
+			}
+			bw.write("\n");
+		}
+		for(int i = 0; i < N; i++){
+			for(int j = 0; j < N; j++){
+				if(j != 0) bw.write(" ");
+				bw.write(Double.toString(b[i][j]));
+			}
+			bw.write("\n");
+		}
+		
 	}
 	
 
@@ -173,7 +142,7 @@ public class B231 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		B231 t = new B231();
+		B230 t = new B230();
 		t.solve();
 		bw.close();
 	}

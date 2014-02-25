@@ -1,3 +1,4 @@
+package done.d230;
 
 
 
@@ -12,7 +13,7 @@ import static java.lang.Long.*;
 
 
 
-public class A231 {
+public class C230 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -22,55 +23,36 @@ public class A231 {
 	
 	
 	public void solve() throws Exception{
-		String s = br.readLine();
-		int A = 0;
-		int B = 0;
-		int C = 0;
-		int idx = 0;
 
-			while(s.charAt(idx) != '+'){
-				A++;
-				idx++;
-			}
-			idx++;
-			while(s.charAt(idx) != '='){
-				B++;
-				idx++;
-			}
-			idx++;
-			C = s.length() - idx;
-			if(A + B == C){
-				bw.write(s);
-				return;
-			}
-			else if(A + B + 1== C -1 && C > 1){
-				A++;
-				C--;
-			}
-			else if(A + B - 1 == C + 1 && (A > 1 || B > 1)){
-				C++;
-				if(A > B){
-					A--;
+		long n = parseInt(br.readLine());
+		if(n == 0){
+			out.println(1);
+			return;
+		}
+	
+		long height = 0;
+		long ans = 1;
+		for(long i = n - 1; i > 0; i--){
+			long prevh = height;
+			while(true){
+				long h = height + 1;
+				if(h * h + i * i <= n * n){
+					height++;
 				}
 				else{
-					B--;
+					break;
 				}
 			}
+			long diff = abs(height - prevh);
+			if(diff < 2){
+				ans += 1;
+			}
 			else{
-				bw.write("Impossible");
-				return;
+				ans += diff;
 			}
-			for(int i = 0; i < A; i++){
-				bw.write("|");
-			}
-			bw.write("+");
-			for(int i = 0; i < B; i++){
-				bw.write("|");
-			}
-			bw.write("=");
-			for(int i = 0; i < C; i++){
-				bw.write("|");
-			}
+		}
+		ans *= 4;
+		out.println(ans);
 	}
 	
 
@@ -153,7 +135,7 @@ public class A231 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		A231 t = new A231();
+		C230 t = new C230();
 		t.solve();
 		bw.close();
 	}

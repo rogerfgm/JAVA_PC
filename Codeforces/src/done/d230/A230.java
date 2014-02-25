@@ -1,3 +1,4 @@
+package done.d230;
 
 
 
@@ -12,7 +13,7 @@ import static java.lang.Long.*;
 
 
 
-public class C231 {
+public class A230 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -22,97 +23,40 @@ public class C231 {
 	
 	
 	public void solve() throws Exception{
-
 		String s = br.readLine();
-		String[] sp = s.split(" ");
-		int n = parseInt(sp[0]);
-		int m = parseInt(sp[1]);
-		int fl = 0;
-		int hf = 0;
-		int zr = 0;
-		for(int i = 0;i < n; i++){
-			s = br.readLine();
-			sp = s.split(" ");
-			for(int j = 0; j < sp.length; j++){
-				if(sp[j].equals("11")){
-					fl++;
-				}
-				else if(sp[j].equals("00")){
-					zr++;
-				}
-				else{
-					hf++;
-				}
+		int n = 0;
+		int e = 0;
+		int i = 0;
+		int t = 0;
+		for(int j = 0; j < s.length(); j++){
+			char c = s.charAt(j);
+			if(c == 'n') n++;
+			if(c == 'i') i++;
+			if(c == 'e') e++;
+			if(c == 't') t++;
+		}
+		int ans = 0;
+		for(int j = 0; j < 200; j++){
+			if(j == 0){
+				n -= 3;
+			}
+			else{
+				n -= 2;
+			}
+			i--;
+			t--;
+			e-=3;
+			if(n < 0 || i < 0 || t < 0 || e < 0){
+				out.println(ans);
+				return;
+			}
+			else{
+				ans++;
 			}
 		}
-		int[][] ans = new int[n][m];
-		int fla = fl % m;
-		int row = 0;
-		int col = 0;
-		if(fl > 0){
-			for(row = 0; row < n; row++){
-				for(col = 0; col < m; col++){
-					ans[row][col] = 1;
-					fl--;
-					if(fl == 0){
-						break;
-					}
-				}
-				if(fl == 0){
-					break;
-				}
-			}
-			col++;
-		}
+		
 	
-		if(col == m){
-			row++;
-			col = 0;
-		}
-		if(hf > 0){
-			for(int j = m -1; j >= col; j--){
-				ans[row][j] = 2;
-				hf--;
-				if(hf == 0){
-					break;
-				}
-			}
-		}
-		boolean flag = true;
-		for(int i = n-1; i >= 0; i--){
-			if(hf == 0) break;
-			for(int j = m-1; j >= 0; j--){
-				if(flag){
-					ans[i][j] = 3;
-				}
-				else{
-					ans[i][j] = 2;
-				}
-				hf--;
-				if(hf == 0) break;
-			}
-			flag = !flag;
-		}
-		for(int i = 0; i < n; i++){
-			for(int j = 0; j < m; j++){
-				if(j != 0){
-					bw.write(" ");
-				}
-				if(ans[i][j] == 1){
-					bw.write("11");
-				}
-				else if(ans[i][j] == 2){
-					bw.write("01");
-				}
-				else if(ans[i][j] == 3){
-					bw.write("10");
-				}
-				else{
-					bw.write("00");
-				}
-			}
-			bw.write("\n");
-		}
+		
 	}
 	
 
@@ -195,7 +139,7 @@ public class C231 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		C231 t = new C231();
+		A230 t = new A230();
 		t.solve();
 		bw.close();
 	}

@@ -21,7 +21,8 @@ public class Template {
 	int M = 0;
 	
 	public void solve() throws Exception{
-
+		String s = br.readLine();
+		String[] sp = s.split(" ");
 		
 	}
 	
@@ -33,8 +34,8 @@ public class Template {
 		if(file.exists()){
 			System.setIn(new BufferedInputStream(new FileInputStream(file)));
 		}
-		sc =  new Scanner(System.in);
-		//br = new BufferedReader(new InputStreamReader(System.in));
+		//sc =  new Scanner(System.in);
+		br = new BufferedReader(new InputStreamReader(System.in));
 		FileWriter fw = new FileWriter(new File("output.txt"));
 		out = new PrintWriter(fw);
 		

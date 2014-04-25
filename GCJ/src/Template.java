@@ -50,10 +50,36 @@ public class Template {
 		int t = 1;
 		while(t <= T){
 			out.print("Case #" + t + ": ");
+			System.out.print("Case #" + t + ": ");
 			b.solve();
 			t++;
 		}
 		out.close();
 		fw.close();
+	}
+	
+	void print(int i){
+		out.print(i + "");
+		System.out.print(i);
+	}
+	void println(int i){
+		out.println(i + "");
+		System.out.println(i);
+	}
+	void print(String s){
+		out.print(s);
+		System.out.print(s);
+	}
+	void println(String s){
+		out.println(s);
+		System.out.println(s);
+	}
+	void print(long i){
+		out.print(i + "");
+		System.out.print(i);
+	}
+	void println(long i){
+		out.println(i + "");
+		System.out.println(i);
 	}
 }

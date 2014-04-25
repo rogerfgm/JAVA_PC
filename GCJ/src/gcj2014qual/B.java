@@ -1,3 +1,4 @@
+package gcj2014qual;
 
 
 import java.io.*;
@@ -6,7 +7,7 @@ import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
 
-public class C_2013_2 {
+public class B {
 	static Scanner sc = null;
 	static BufferedReader br = null;
 	static PrintWriter out = null;
@@ -20,56 +21,43 @@ public class C_2013_2 {
 	int N = 0;
 	int M = 0;
 	
+	double ans = 0;
+	double C, F, X;
+	
 	public void solve() throws Exception{
-		N = sc.nextInt();
-		int[] inc = new int[N];
-		int[] dec = new int[N];
-		for(int i = 0; i < N; i++){
-			inc[i] = sc.nextInt();
-		}
-		for(int i = 0; i < N; i++){
-			dec[i] = sc.nextInt();
-		}
-		int[] ans = new int[N];
-		int now = 1;
-		while(now <= N){
-			int midx = -1;
-			int min = INF;
-			for(int i = 0; i < N; i++){
-				if(ans[i] == 0){
-					if(inc[i] <= min){
-						min = inc[i];
-						midx = i;
-					}
-				}
-			}
-			ans[midx] = now;
-			now++;
-		}
-		for(int i = 0; i < N; i++){
-			if(i != 0){
-				out.print(" ");
-			}
-			out.print(ans[i]);
-		}
-		out.println();
+		String s = br.readLine();
+		String[] sp = s.split(" ");
+		C = Double.parseDouble(sp[0]); // 増やすのに必要
+		F = Double.parseDouble(sp[1]); // 増える量
+		X = Double.parseDouble(sp[2]); //　目標
 		
+		ans = X / 2;
+		double add = 2;
+		double time = 0;
+		for(int i = 0; i < 200000; i++){
+			time = time + C / add;
+			add += F;
+			ans = min(ans, time + X / add);
+		}
+		out.println(ans);
 	}
+	
+
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception{
-		File file = new File("C-small-practice.in");
+		File file = new File("B-large.in");
 		if(file.exists()){
 			System.setIn(new BufferedInputStream(new FileInputStream(file)));
 		}
-		sc =  new Scanner(System.in);
-		//br = new BufferedReader(new InputStreamReader(System.in));
+		//sc =  new Scanner(System.in);
+		br = new BufferedReader(new InputStreamReader(System.in));
 		FileWriter fw = new FileWriter(new File("output.txt"));
 		out = new PrintWriter(fw);
 		
-		C_2013_2 b = new C_2013_2();
+		B b = new B();
 		int T = 0;
 		if(sc != null){
 			T = sc.nextInt();

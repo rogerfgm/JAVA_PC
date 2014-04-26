@@ -6,7 +6,7 @@ import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
 
-public class Template {
+public class C {
 	static Scanner sc = null;
 	static BufferedReader br = null;
 	static PrintWriter out = null;
@@ -24,9 +24,36 @@ public class Template {
 	
 	public void solve() throws Exception{
 		String s = br.readLine();
-		
+		N = 1000;
 		String[] sp = s.split(" ");
-
+		int[] good = new int[1000];
+		int[] bad = new int[1000];
+		Random rnd = new Random();
+		int t = 0;
+		for(int i = 0; i < N; i++){
+			good[i] = bad[i] = i;
+		}
+		for(int i = 0; i < N; i++){
+			int idx = rnd.nextInt(N);
+			t = bad[i];
+			bad[i] = bad[idx];
+			bad[idx] = t;
+			
+			
+			idx = rnd.nextInt(N-i);
+			idx += i;
+			t = good[i];
+			good[i] = good[idx];
+			good[idx] = t;
+		}
+		
+		int gsum = 0;
+		int bsum = 0;
+		for(int i = 0; i < N; i++){
+			gsum += abs(good[i] - i);
+			bsum += abs(bad[i] - i);
+		}
+		System.out.println(gsum + " " + bsum);
 	}
 	
 	/**
@@ -42,7 +69,7 @@ public class Template {
 		FileWriter fw = new FileWriter(new File("output.txt"));
 		out = new PrintWriter(fw);
 		
-		Template b = new Template();
+		C b = new C();
 		int T = 0;
 		if(sc != null){
 			T = sc.nextInt();

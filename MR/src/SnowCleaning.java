@@ -13,8 +13,12 @@ public class SnowCleaning {
 	Worker[] workers = null;
 	int[][] workerIdx = null;
 	int nextWorkerID = 0; 
-
+	static PrintStream err = null;
+	static long progtime = 0;
 	public int init(int boardSize, int salary, int snowFine){
+		progtime = 0;
+		long start = System.currentTimeMillis();
+		err.println(boardSize + " " + salary + " " + snowFine);
 		N = boardSize;
 		nextWorkerID = 0;
 		Sal = salary;
@@ -30,7 +34,7 @@ public class SnowCleaning {
 		if(L < 2){
 			L = 2;
 		}
-		int ama = N % L;
+		int ama = N - (L * 10);
 		
 		int ny = 0;
 		int yama = ama;
@@ -64,20 +68,24 @@ public class SnowCleaning {
 			
 			ny = ey + 1;
 		}
-		
+
 		for(int i = 0; i < 100; i++){
 			Worker w = workers[i];
+			if(w.by < 0){
+				continue;
+			}
 			for(int j = w.by; j <= w.ey; j++){
 				for(int k = w.bx; k <= w.ex; k++){
 					workerIdx[j][k] = i;
 				}
 			}
 		}
-		
+		progtime += System.currentTimeMillis() - start;
 		return 0;
 	}
 	
 	public String[] nextDay(int[] sf){
+		long start =  System.currentTimeMillis();
 		for(int i = 0; i < 100; i++){
 			workers[i].canmove = true;
 		}
@@ -92,83 +100,157 @@ public class SnowCleaning {
 				b[y][x] = true;
 			}
 		}
-//		if(cnt > 0){
-//			for(int i = 0; i < N; i++){
-//				for(int j = 0; j < N; j++){
-//					if(b[i][j]){
-//						int widx = workerIdx[i][j];
-//						if(!workers[widx].canmove){
-//							continue;
-//						}
-//						if(!workers[widx].w){
-//							workers[widx].w = true;
-//							workers[widx].workerID = nextWorkerID++;
-//							workers[widx].y = i;
-//							workers[widx].x = j;
-//							workers[widx].canmove = false;
-//							b[i][j] = false;
-//							cmd.add("H " + i + " " + j);
-//						}
-//						else{
-//							int wy = workers[widx].y;
-//							int wx = workers[widx].x;
-//							if(b[wy][wx]){
-//								// not move
-//								b[wy][wx] = false;
-//								workers[widx].canmove = false;
-//							}
-//							else{
-//								int dy = i - wy;
-//								int dx = j - wx;
-//								if(dy != 0 && dx != 0){
-//									int nwy = wy + dy;
-//									int nwx = wx;
-//									if(b[nwy][nwx]){
-//										b[nwy][nwx] = false;
-//										workers[widx].canmove = false;
-//										cmd.add("M " + workers[widx].workerID + " " + getDir(dy, 0));
-//										continue;
-//									}
-//									nwy = wy;
-//									nwx = wx + dx;
-//									b[nwy][nwx] = false; // true‚Å‚Í‚È‚¢‚©‚à‚µ‚ê‚È‚¢‚ª‚±‚Á‚¿‚É“®‚©‚·‚µ‚©‚È‚¢
-//									workers[widx].canmove = false;
-//									cmd.add("M " + workers[widx].workerID + " " + getDir(0, dx));
-//									continue;
-//								}
-//								else if(dy != 0){
-//									int nwy = wy + dy;
-//									int nwx = wx;
-//									b[nwy][nwx] = false;
-//									workers[widx].canmove = false;
-//									cmd.add("M " + workers[widx].workerID + " " + getDir(dy, 0));
-//								}
-//								else if(dx != 0){
-//									int nwy = wy;
-//									int nwx = wx + dx;
-//									b[nwy][nwx] = false;
-//									workers[widx].canmove = false;
-//									cmd.add("M " + workers[widx].workerID + " " + getDir(0, dx));
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
+		if(cnt > 0){
+			for(int i = 0; i < N; i++){
+				for(int j = 0; j < N; j++){
+					if(b[i][j]){
+						int widx = workerIdx[i][j];
+						if(!workers[widx].canmove){
+							continue;
+						}
+						if(!workers[widx].w){
+							workers[widx].w = true;
+							workers[widx].workerID = nextWorkerID++;
+							workers[widx].y = i;
+							workers[widx].x = j;
+							workers[widx].canmove = false;
+							b[i][j] = false;
+							workers[widx].lastmove = "";
+							cmd.add("H " + i + " " + j);
+						}
+						else{
+							String dir = findNear(workers[widx]);
+							workers[widx].lastmove = dir;
+							if(dir.length() > 0){
+								cmd.add("M " + workers[widx].workerID + " " + dir);
+							}
+							
+						}
+					}
+				}
+			}
+		}
 
 		
 		
 		
 		String[] ret = new String[cmd.size()];
+		//ret = new String[0];
 		for(int i = 0; i < cmd.size(); i++){
 			ret[i] = cmd.get(i);
+			//err.println(ret[i]);
 		}
+		progtime += System.currentTimeMillis() - start;
 		return ret;
 	}
 	
+	private String findNear(Worker worker){
+	
+		int y = worker.y;
+		int x = worker.x;
+		worker.canmove = false;
+		if(b[y][x]){
+			b[y][x] = false;
+			return getDir(0, 0);
+		}
+		if(y-1 >= worker.by && b[y-1][x]){
+			b[y-1][x] = false;
+			worker.y -=1;
+			return getDir(-1, 0);
+		}
+		else if(y+1 <= worker.ey && b[y+1][x]){
+			b[y+1][x] = false;
+			worker.y +=1;
+			return getDir(1, 0);
+		}
+		else if(x-1 >= worker.bx && b[y][x-1]){
+			b[y][x-1] = false;
+			worker.x -= 1;
+			return getDir(0, -1);
+		}
+		else if(x+1 <= worker.ex && b[y][x+1]){
+			b[y][x+1] = false;
+			worker.x += 1;
+			return getDir(0, 1);
+		}
+		int u = 0, d = 0, l = 0, r = 0;
+		for(int i = worker.by; i <= worker.ey; i++){
+			for(int j = worker.bx; j <= worker.ex; j++){
+				if(b[i][j]){
+					if(i < y){
+						u++;
+					}
+					else if(i > y){
+						d++;
+					}
+					if(j < x){
+						l++;
+					}
+					else if(j > x){
+						r++;
+					}
+				}
+			}
+		}
+		if(u > d && u > l && u > r){
+			worker.y-=1;
+			return getDir(-1, 0);
+		}
+		if(l > u && l > d && l > r){
+			worker.x-=1;
+			return getDir(0, -1);
+		}
+		if(d > u && d > l && d > r){
+			worker.y+=1;
+			return getDir(1, 0);
+		}
+		if(r > u && r > d && r > l){
+			worker.x+=1;
+			return getDir(0, 1);
+		}
+		if(u > 0 && worker.lastmove.equals("U")){
+			worker.y-=1;
+			return getDir(-1, 0);
+		}
+		if(d > 0 && worker.lastmove.equals("D")){
+			worker.y+=1;
+			return getDir(1, 0);
+		}
+		if(l > 0 && worker.lastmove.equals("L")){
+			worker.x-=1;
+			return getDir(0, -1);
+		}
+		if(r > 0 && worker.lastmove.equals("R")){
+			worker.x+=1;
+			return getDir(0, 1);
+		}
+		if(u > 0){
+			worker.y-=1;
+			return getDir(-1, 0);
+		}
+		if(d > 0){
+			worker.y+=1;
+			return getDir(1, 0);
+		}
+		if(l > 0 ){
+			worker.x-=1;
+			return getDir(0, -1);
+		}
+		if(r > 0){
+			worker.x+=1;
+			return getDir(0, 1);
+		}
+		
+		
+		
+		return getDir(0, 0);
+	}
+	
 	private String getDir(int y, int x){
-		if(y < 0 ){
+		if(y == 0 && x == 0){
+			return "";
+		}
+		else if(y < 0 ){
 			return "U";
 		}
 		else if(y > 0){
@@ -184,48 +266,55 @@ public class SnowCleaning {
 	
 	class Worker{
 		boolean w = false;
-		int by = 0;
-		int bx = 0;
-		int ey = 0;
-		int ex = 0;
+		int by = -1;
+		int bx = -1;
+		int ey = -1;
+		int ex = -1;
+		int y = 0;
+		int x = 0;
 		int workerID = 0;
 		boolean canmove = false;
+		String lastmove = null;
 	}
 	
 	
 	public static void main(String[] args) throws Exception{
 		SnowCleaning s = new SnowCleaning();
-		s.init(54, 10, 19);
-		for(int i = 0; i < 100; i++){
-			System.out.println(s.workers[i].by + " " + s.workers[i].ey + " " + s.workers[i].bx + " "
-					+ " " + s.workers[i].ex + " "	);
-		}
+		err = System.err;
 		
-//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-//		int boardSize = Integer.parseInt(br.readLine());
-//	    int salary = Integer.parseInt(br.readLine());
-//	    int snowFine = Integer.parseInt(br.readLine());
-//
-//	    s.init(boardSize, salary, snowFine);
-//
-//	    for (int t=0; t < 2000; t++){
-//	        int snowCnt = Integer.parseInt(br.readLine());
-//	        int[] snowFalls = new int[snowCnt*2];
-//	        for (int i=0; i < 2*snowCnt; i++){
-//	            snowFalls[i] = Integer.parseInt(br.readLine());
-//	        }
-//	        String[] ret = s.nextDay(snowFalls);
-//	        bw.write(ret.length + "\n");
-//	        for (int i=0; i < ret.length; i++){
-//	        	bw.write(ret[i] + "\n");
-//	        }
-//
-//	        bw.flush();
-//	    }
-//
-//	    bw.close();
-//	    br.close();
+		
+//		s.init(47, 54, 85);
+//		for(int i = 0; i < 100; i++){
+//			System.out.println(s.workers[i].by + " " + s.workers[i].ey + " " + s.workers[i].bx + " "
+//					+ " " + s.workers[i].ex + " "	);
+//		}
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int boardSize = Integer.parseInt(br.readLine());
+	    int salary = Integer.parseInt(br.readLine());
+	    int snowFine = Integer.parseInt(br.readLine());
+
+	    s.init(boardSize, salary, snowFine);
+
+	    for (int t=0; t < 2000; t++){
+	        int snowCnt = Integer.parseInt(br.readLine());
+	        int[] snowFalls = new int[snowCnt*2];
+	        for (int i=0; i < 2*snowCnt; i++){
+	            snowFalls[i] = Integer.parseInt(br.readLine());
+	        }
+	        String[] ret = s.nextDay(snowFalls);
+	        bw.write(ret.length + "\n");
+	        for (int i=0; i < ret.length; i++){
+	        	bw.write(ret[i] + "\n");
+	        }
+
+	        bw.flush();
+	    }
+
+	    bw.close();
+	    br.close();
+	    System.err.println("time : " + progtime);
 	}
 
 }

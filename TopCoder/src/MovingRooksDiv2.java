@@ -19,9 +19,9 @@ public class MovingRooksDiv2 {
 	String imp = "Impossible";
 	int[] Y2 = null;
 	public String move(int[] Y1, int[] Y2){
-		int N = Y1.length;
+		N = Y1.length;
 		this.Y2 = Y2;
-		if(check(Y1, 0)){
+		if(check(Y1)){
 			return pos;
 		}
 		else{
@@ -30,39 +30,35 @@ public class MovingRooksDiv2 {
 		
 	}
 	
-	boolean check(int[] Y1, int ind){
-		if(ind == N) {
+	boolean check(int[] Y1){
+		{
+			boolean f = true;
 			for(int i = 0; i < N; i++){
 				if(Y1[i] != Y2[i]){
-					return false;
+					f = false;
+					break;
 				}
 			}
-			return true;
+			if(f){
+				return true;
+			}
 		}
-		int t = Y2[ind];
-		boolean f = false;
-		for(int i = 0; i < N; i++){
-			if(Y1[i] == t){
-				if(i == ind){
-					f |= check(Y1, ind+1);
-				}
-				else{
-					for(int j = ind; j < i; j++){
-						if(Y1[j] > t){
-							int[] ny = Arrays.copyOf(Y1, N);
-							ny[i] = ny[j];
-							ny[j] = t;
-							f |= check(ny, ind);
-						}
+		for(int i = N-1; i > 0; i--){
+			for(int j = i-1; j >= 0; j--){
+				if(Y1[j] > Y1[i]){
+					int t = Y1[j];
+					Y1[j] = Y1[i];
+					Y1[i] = t;
+					if(check(Y1)){
+						return true;
 					}
+					t = Y1[j];
+					Y1[j] = Y1[i];
+					Y1[i] = t;
 				}
-				
-				break;
 			}
 		}
-		
-		
-		return f;
+		return false;
 	}
 	
 	/**
@@ -70,8 +66,8 @@ public class MovingRooksDiv2 {
 	 */
 	public static void main(String[] args) {
 		MovingRooksDiv2 t = new MovingRooksDiv2();
-		int[] Y1 = {3,1,2,0};
-		int[] Y2 = {0,2,1,3};
+		int[] Y1 = {5, 2, 4, 3, 1, 0};
+		int[] Y2 = {0, 5, 2, 3, 4, 1};
 		String r = t.move(Y1, Y2);
 		out.println(r);
 	}

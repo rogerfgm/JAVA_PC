@@ -18,7 +18,7 @@ public class SnowCleaning {
 	public int init(int boardSize, int salary, int snowFine){
 		progtime = 0;
 		long start = System.currentTimeMillis();
-		err.println(boardSize + " " + salary + " " + snowFine);
+		//err.println(boardSize + " " + salary + " " + snowFine);
 		N = boardSize;
 		nextWorkerID = 0;
 		Sal = salary;

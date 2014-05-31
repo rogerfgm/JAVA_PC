@@ -1,8 +1,9 @@
+package old;
 import java.io.*;
 import java.util.*;
 
 
-public class SnowCleaning {
+public class SnowCleaning01 {
 
 	boolean[][] b = null;
 	int Sal = 0;
@@ -18,7 +19,7 @@ public class SnowCleaning {
 	public int init(int boardSize, int salary, int snowFine){
 		progtime = 0;
 		long start = System.currentTimeMillis();
-		err.println(boardSize + " " + salary + " " + snowFine);
+		//err.println(boardSize + " " + salary + " " + snowFine);
 		N = boardSize;
 		nextWorkerID = 0;
 		Sal = salary;
@@ -279,7 +280,7 @@ public class SnowCleaning {
 	
 	
 	public static void main(String[] args) throws Exception{
-		SnowCleaning s = new SnowCleaning();
+		SnowCleaning01 s = new SnowCleaning01();
 		err = System.err;
 		
 		

@@ -37,9 +37,9 @@ public class B_2011_2 {
 		
 		int ans = 0;
 		
-		for(int i = 3; i <= min(R, C); i++){
-			for(int j = 0; j < min(R, R-i + 1); j++){
-				for(int k = 0; k < min(C, C-i + 1); k++){
+		for(int i = 3; i <= Math.min(R, C); i++){
+			for(int j = 0; j < Math.min(R, R-i + 1); j++){
+				for(int k = 0; k < Math.min(C, C-i + 1); k++){
 					double yoko = 0;
 					double tate = 0;
 					double mid = 0;

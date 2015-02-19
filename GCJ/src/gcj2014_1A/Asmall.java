@@ -73,7 +73,7 @@ public class Asmall {
 					b ^= tmp;
 					cnt++;
 				}
-				ans = min(ans, cnt);
+				ans = Math.min(ans, cnt);
 			}
 		}
 		if(ans == INF){

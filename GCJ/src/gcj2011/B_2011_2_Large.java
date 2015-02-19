@@ -36,8 +36,8 @@ public class B_2011_2_Large {
 		
 		int ans = 0;
 		
-		double[][][] t = new double[R][C][max(R, C)+1];
-		double[][][] y = new double[R][C][max(R, C)+1];
+		double[][][] t = new double[R][C][Math.max(R, C)+1];
+		double[][][] y = new double[R][C][Math.max(R, C)+1];
 		
 		
 		
@@ -97,7 +97,7 @@ public class B_2011_2_Large {
 		
 		
 		
-		for(int i = 3; i <= min(R, C); i++){
+		for(int i = 3; i <= Math.min(R, C); i++){
 			double[][][] a = new double[R][C][2];
 			for(int j = 0; j < R -i + 1; j++){
 				double sm = 0;

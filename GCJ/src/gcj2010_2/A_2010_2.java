@@ -81,7 +81,7 @@ public class A_2010_2 {
 					if(x < 0){
 						x *= -1;
 					}
-					ans = min(ans, cnt(N + y + x));
+					ans = Math.min(ans, cnt(N + y + x));
 				}
 				
 				

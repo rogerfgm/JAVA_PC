@@ -12,7 +12,7 @@ import static java.lang.Long.*;
 
 
 
-public class D230 {
+public class A274 {
 	int INF = Integer.MAX_VALUE / 100;
 	static Scanner sc = null;
 	static BufferedReader br = null;
@@ -22,23 +22,16 @@ public class D230 {
 	
 	
 	public void solve() throws Exception{
-		int[][] x = new int[3][3];
-		for(int i =  0; i < 3; i++){
-			String s = br.readLine();
-			String[] sp = s.split( " ");
-			for(int j = 0; j < 3; j++){
-				x[i][j] = parseInt(sp[j]);
-			}
-		}
-		N = parseInt(br.readLine());
-		int[][][] dp = new int[3][3][N+1];
-		dp[0][1][1] = x[0][1];
-		dp[0][2][1] = x[0][2];
-		dp[1][2][1] = x[1][2];
-		dp[1][0][1] = x[1][0];
-		dp[2][0][1] = x[1][2];
-		dp[1][0][1] = x[1][0];
-		
+		int a = nextInt();
+		int b = nextInt();
+		int c = nextInt();
+		int ans = a * b * c;
+		ans = Math.max((a + b)*c, ans); 
+		ans = Math.max(a * (b + c), ans); 
+		ans = Math.max(a + b + c, ans); 
+		ans = Math.max(a + b * c, ans); 
+		ans = Math.max(a * b + c, ans);
+		System.out.println(ans);
 	}
 	
 
@@ -121,7 +114,7 @@ public class D230 {
 		bw = new BufferedWriter(new PrintWriter(out));
 		//sc =  new Scanner(System.in);
 		br = new BufferedReader(new InputStreamReader(System.in));
-		D230 t = new D230();
+		A274 t = new A274();
 		t.solve();
 		bw.close();
 	}

@@ -79,7 +79,7 @@ public class CTLE {
 		check(0, 0, 0);
 		int ans = Integer.MAX_VALUE;
 		for(int i = 0; i < 5; i++){
-			ans  = min(ans, dp[N-1][i]);
+			ans  = Math.min(ans, dp[N-1][i]);
 		}
 		out.println(ans);
 		

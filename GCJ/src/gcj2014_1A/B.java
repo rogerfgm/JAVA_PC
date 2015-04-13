@@ -45,10 +45,10 @@ public class B {
 		int ans = N-1;
 		for(int I = 0; I < N; I++){
 			if(g.get(I).size() == 1){
-				ans = min(ans, N-1);
+				ans = Math.min(ans, N-1);
 			}
 			else if(g.get(I).size() == 2){
-				ans = min(ans, calc(I, g.get(I).get(0)) + calc(I, g.get(I).get(1)));
+				ans = Math.min(ans, calc(I, g.get(I).get(0)) + calc(I, g.get(I).get(1)));
 			}
 			else{
 				for(int i = 0; i < g.get(I).size(); i++){
@@ -63,7 +63,7 @@ public class B {
 						}
 						NUM += calc(I,g.get(I).get(i));
 						NUM += calc(I, g.get(I).get(j));
-						ans = min(ans, NUM);
+						ans = Math.min(ans, NUM);
 					}
 				}
 			}
@@ -96,7 +96,7 @@ public class B {
 					}
 					NUM += calc(n,g.get(n).get(i));
 					NUM += calc(n, g.get(n).get(j));
-					num = min(num, NUM);
+					num = Math.min(num, NUM);
 				}
 			}
 		}

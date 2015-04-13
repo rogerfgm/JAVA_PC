@@ -91,7 +91,7 @@ public class A {
 					}
 				}
 				if(flag){
-					ans = min(ans, cnt);
+					ans = Math.min(ans, cnt);
 				}
 			}
 		}

@@ -1,3 +1,4 @@
+package gcj2015qual;
 
 
 import java.io.*;
@@ -6,7 +7,7 @@ import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
 
-public class Dwrong {
+public class B {
 	static Scanner sc = null;
 	static BufferedReader br = null;
 	static PrintWriter out = null;
@@ -20,45 +21,49 @@ public class Dwrong {
 	int N = 0;
 	int M = 0;
 	
-	String G = "GABRIEL";
-	String RI = "RICHARD";
+	int[] dp = null;
 	
 	public void solve() throws Exception{
 		String s = br.readLine();
-		
+		N = Integer.parseInt(s);
+		s = br.readLine();
 		String[] sp = s.split(" ");
-		int X = Integer.parseInt(sp[0]);
-		int R = Integer.parseInt(sp[1]);
-		int C = Integer.parseInt(sp[2]);
-
-		if(R < X && C < X){
-			println(RI);
-			return;
+		int[] d = new int[N];
+		for(int i = 0; i < N; i++){
+			d[i] = Integer.parseInt(sp[i]);
 		}
-		int M = R * C;
-		int ama = M % X;
-		if(ama > 0){
-			println(RI);
-			return;
+		int ans = check(d);
+		
+		
+		println(ans);
+	}
+	
+	int check(int[] d){
+		Arrays.sort(d);
+		int len = d.length;
+		if(d[len-1] <= 3){
+			return d[len-1];
 		}
-		if(X == 1 || X == 2 || X == 3){
-			println(G);
-		}
-		else{
-			if(R <= 2 || C <= 2){
-				println(RI);
+	
+		int ans = d[len-1];
+		for(int i = 2; i <= d[len-1] / 2; i++){
+			int[] nd = new int[len+1];
+			for(int j = 0; j < d.length-1; j++){
+				nd[j] = d[j];
 			}
-			else{
-				println(G);
-			}
+			nd[len-1] = i;
+			nd[len] = d[len-1] -i;
+			ans = Math.min(ans, 1 + check(nd));
 		}
+		
+		return ans;
 	}
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception{
-		File file = new File("D-small-attempt0.in");
+		File file = new File("B-small-practice.in");
 		if(file.exists()){
 			System.setIn(new BufferedInputStream(new FileInputStream(file)));
 		}
@@ -67,7 +72,7 @@ public class Dwrong {
 		FileWriter fw = new FileWriter(new File("output.txt"));
 		out = new PrintWriter(fw);
 		
-		Dwrong b = new Dwrong();
+		B b = new B();
 		int T = 0;
 		if(sc != null){
 			T = sc.nextInt();

@@ -1,3 +1,4 @@
+package gcj2015qual;
 
 
 import java.io.*;

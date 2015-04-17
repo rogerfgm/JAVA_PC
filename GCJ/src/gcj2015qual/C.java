@@ -163,7 +163,7 @@ public class C {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception{
-		File file = new File("C-small-attempt0.in");
+		File file = new File("C-small-practice.in");
 		if(file.exists()){
 			System.setIn(new BufferedInputStream(new FileInputStream(file)));
 		}

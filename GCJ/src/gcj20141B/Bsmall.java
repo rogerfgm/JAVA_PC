@@ -1,3 +1,4 @@
+package gcj20141B;
 
 
 import java.io.*;
@@ -6,7 +7,7 @@ import java.util.*;
 import static java.lang.Math.*;
 import static java.lang.Integer.*;
 
-public class Template {
+public class Bsmall {
 	static Scanner sc = null;
 	static BufferedReader br = null;
 	static PrintWriter out = null;
@@ -26,14 +27,26 @@ public class Template {
 		String s = br.readLine();
 		
 		String[] sp = s.split(" ");
-
+		int A = Integer.parseInt(sp[0]);
+		int B = Integer.parseInt(sp[1]);
+		int K = Integer.parseInt(sp[2]);
+		int ans = 0;
+		for(int i = 0; i < A; i++){
+			for(int j = 0; j < B; j++){
+				int ck = i & j;
+				if(ck < K){
+					ans++;
+				}
+			}
+		}
+		println(ans);
 	}
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception{
-		File file = new File("input.txt");
+		File file = new File("B-small-practice.in");
 		if(file.exists()){
 			System.setIn(new BufferedInputStream(new FileInputStream(file)));
 		}
@@ -45,7 +58,7 @@ public class Template {
 		FileWriter fw = new FileWriter(new File("output.txt"));
 		out = new PrintWriter(fw);
 		
-		Template b = new Template();
+		Bsmall b = new Bsmall();
 		int T = 0;
 		if(sc != null){
 			T = sc.nextInt();
